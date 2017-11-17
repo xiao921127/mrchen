@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <Button
+                android:id="@+id/start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="连接"
+                android:textSize="17sp"/>
+
+            <TextView
+                android:id="@+id/output"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <Button
+            android:id="@+id/bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上"
+            android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/bt_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="500px"/>
+        <Button
+            android:id="@+id/bt_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="左"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="250px"/>
+        <Button
+            android:id="@+id/bt_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="右"
+            android:layout_marginRight="50px"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="250px"/>
+        <Button
+            android:id="@+id/bt_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="抓"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="700px"/>
+    </RelativeLayout>
+
+</RelativeLayout>
