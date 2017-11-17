@@ -1,0 +1,129 @@
+package com.wawaji.app.ui;
+
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+
+import com.wawaji.app.R;
+import com.wawaji.app.contract.HomeContract;
+import com.wawaji.app.entity.DollsEntity;
+import com.wawaji.app.presenter.HomePresenter;
+import com.wawaji.app.ui.adapter.DollsAdapter;
+import com.wawaji.common.base.BaseActivity;
+import com.wawaji.common.gridview.XStaggerView;
+import com.wawaji.common.notification.Notification;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class HomeAct extends BaseActivity implements HomeContract.View<DollsEntity>, AdapterView.OnItemClickListener {
+
+    @BindView(R.id.iv_actionbar_left)
+    ImageView ivActionbarLeft;//我的按钮
+
+    @BindView(R.id.iv_actionbar_right)
+    ImageView ivActionbarRight;//设置按钮
+
+    @BindView(R.id.gv_base_gridview)
+    XStaggerView gvBaseGridview;//娃娃列表
+
+    private long mExitTime; // 上次点击时间
+
+    private HomePresenter mPresenter = new HomePresenter(this);
+
+    private ArrayList<DollsEntity> mList = new ArrayList<>();
+
+    private DollsAdapter mDollsAdapter;
+
+    @Override
+    protected void initView() {
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        setImmersionStatus(R.id.layout);
+    }
+
+    @Override
+    protected void setView() {
+        setActivityName(HomeAct.class.getSimpleName());
+        ivActionbarLeft.setImageResource(R.drawable.ic_my);
+        ivActionbarRight.setImageResource(R.drawable.ic_settings);
+
+        mDollsAdapter = new DollsAdapter(this, mList);
+        gvBaseGridview.setAdapter(mDollsAdapter);
+        gvBaseGridview.setMode(XStaggerView.Mode.DISABLED);
+        mPresenter.onRefresh();
+
+    }
+
+    @Override
+    protected void setListener() {
+        gvBaseGridview.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Bundle bundle = new Bundle();
+        DollsEntity entity = (DollsEntity) parent.getAdapter().getItem(position);
+        bundle.putString("roomid", entity.id);
+        startIntent(PlayAct.class, bundle);
+    }
+
+    @Override
+    public void startAct(Class<?> cls, Bundle bundle) {
+        startIntent(cls, bundle);
+    }
+
+    @OnClick({R.id.iv_actionbar_left, R.id.iv_actionbar_right})
+    public void onViewClicked(View v) {
+        switch (v.getId()) {
+            case R.id.iv_actionbar_left:
+                mPresenter.onClick(1);
+                break;
+            case R.id.iv_actionbar_right:
+                startIntent(SettingsAct.class, null);
+                break;
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                Notification.showToastMsg(R.string.toast_exit);
+                mExitTime = System.currentTimeMillis();
+            } else {
+//                mTaskManager.closeAllActivity();
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onRefreshList(ArrayList<DollsEntity> list) {
+        mList.clear();
+        mList.addAll(list);
+        mDollsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoadList(ArrayList<DollsEntity> list) {
+
+    }
+
+    @Override
+    public void onNoLoad() {
+
+    }
+
+    @Override
+    public void onNoData() {
+
+    }
+}

@@ -1,0 +1,186 @@
+package com.wawaji.app.model;
+
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.wawaji.app.contract.PlayContract;
+import com.wawaji.app.entity.RoomDetailsEntity;
+import com.wawaji.app.interf.OnRequestChangeListener;
+import com.wawaji.common.https.RequestHandler;
+import com.wawaji.common.https.api.RequestApi;
+import com.wawaji.common.https.entity.HttpResponse;
+
+/**
+ * 游戏页面模型
+ * <p>
+ * Created by admin on 2017/11/6.
+ */
+
+public class PlayModel implements PlayContract.Model {
+
+    private final String TAG = PlayModel.class.getSimpleName();
+
+    private String mTime;//时间戳
+
+    @Override
+    public void cancelRequest() {
+        RequestApi.cancelRequestByTag(TAG);
+    }
+
+    @Override
+    public void getRoomDetails(String roomid, final OnRequestChangeListener<RoomDetailsEntity> listener) {
+        RequestApi.roomDetail(roomid, new RequestHandler() {
+            @Override
+            public void onSucceed(HttpResponse result) {
+                try {
+                    RoomDetailsEntity entity = new RoomDetailsEntity();
+                    entity.fromJson(result.data);
+                    listener.onSuccess(entity);
+                } catch (Exception e) {
+                    listener.onError();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(HttpResponse result) {
+                listener.onError();
+            }
+
+            @Override
+            public void onFailure() {
+                listener.onFailure();
+            }
+        }, TAG);
+    }
+
+    @Override
+    public void startGame(String roomid, final OnRequestChangeListener<RoomDetailsEntity> listener) {
+        RequestApi.startGame(roomid, new RequestHandler() {
+            @Override
+            public void onSucceed(HttpResponse result) {
+                try {
+                    RoomDetailsEntity entity = new RoomDetailsEntity();
+                    entity.fromJson(result.data);
+                    listener.onSuccess(entity);
+                } catch (Exception e) {
+                    listener.onError();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(HttpResponse result) {
+                listener.onError();
+            }
+
+            @Override
+            public void onFailure() {
+                listener.onFailure();
+            }
+        }, TAG);
+    }
+
+    /**
+     * 发送弹幕消息
+     *
+     * @param msg      发送的弹幕消息
+     * @param roomid   房间ID
+     * @param listener
+     */
+    @Override
+    public void onBarrageData(String msg, String roomid, final OnRequestChangeListener<String> listener) {
+        RequestApi.sendBarrage(msg, roomid, new RequestHandler() {
+            @Override
+            public void onSucceed(HttpResponse result) {
+                if (TextUtils.isEmpty(result.data)) {
+                    listener.onError();
+                    return;
+                }
+                listener.onSuccess(result.data);
+            }
+
+            @Override
+            public void onError(HttpResponse result) {
+                listener.onError();//关闭弹窗
+                Log.e("MrChen", "请求失败");
+            }
+
+            @Override
+            public void onFailure() {
+                listener.onError();//关闭弹窗
+                Log.e("MrChen", "无网络状态");
+            }
+        }, TAG);
+    }
+
+    /**
+     * 游戏结束休息一会
+     *
+     * @param roomId
+     */
+    @Override
+    public void PlayGameOver(String roomId,final OnRequestChangeListener<RoomDetailsEntity> listener) {
+        RequestApi.PlayGameOver(roomId, new RequestHandler() {
+            @Override
+            public void onSucceed(HttpResponse result) {
+                if (TextUtils.isEmpty(result.data)) {
+                    listener.onError();
+                    return;
+                }
+                RoomDetailsEntity entity = new RoomDetailsEntity();
+                try {
+                    entity.fromJson(result.data);
+                } catch (Exception e) {
+                    listener.onError();
+                    e.printStackTrace();
+                }
+                listener.onSuccess(entity);
+            }
+
+            @Override
+            public void onError(HttpResponse result) {
+                listener.onError();
+            }
+
+            @Override
+            public void onFailure() {
+                listener.onFailure();
+            }
+        }, TAG);
+    }
+
+    /**
+     * 刷新房间
+     * @param roomid   房间id
+     * @param listener 回调
+     */
+    @Override
+    public void refreshRoom(String roomid, final OnRequestChangeListener<RoomDetailsEntity> listener) {
+        RequestApi.refreshRoom(roomid, mTime, new RequestHandler() {
+            @Override
+            public void onSucceed(HttpResponse result) {
+                Log.e("nidemingzi","刷新房间");
+                try {
+                    RoomDetailsEntity entity = new RoomDetailsEntity();
+                    entity.fromJson(result.data);
+                    mTime = entity.barrageList.get(0).ctime;
+                    listener.onSuccess(entity);
+                } catch (Exception e) {
+                    listener.onError();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(HttpResponse result) {
+                listener.onError();
+            }
+
+            @Override
+            public void onFailure() {
+                listener.onFailure();
+            }
+        }, TAG);
+    }
+}

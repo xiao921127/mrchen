@@ -1,0 +1,169 @@
+package com.wawaji.app.ui;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.wawaji.app.R;
+import com.wawaji.app.contract.PlayDetailsContract;
+import com.wawaji.app.entity.PlayDetailsEntity;
+import com.wawaji.app.presenter.PlayDetailsPresenter;
+import com.wawaji.common.base.BaseActivity;
+import com.wawaji.common.utils.ImageSetting;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class PlayDetailsAct extends BaseActivity implements PlayDetailsContract.View {
+
+    @BindView(R.id.play_img)
+    ImageView playImg;//娃娃图片
+    @BindView(R.id.name_tv)
+    TextView nameTv;//娃娃名字
+    @BindView(R.id.time_tv)
+    TextView timeTv;//时间
+    @BindView(R.id.number_tv)
+    TextView numberTv;//数量
+    @BindView(R.id.serial_number_tv)
+    TextView serialNumberTv;//游戏编号
+    @BindView(R.id.current_state_tv)
+    TextView currentStateTv;//当前状态
+    @BindView(R.id.exchange_currency_tv)
+    TextView exchangeCurrencyTv;//可换娃娃币
+    @BindView(R.id.name_user_phone)
+    TextView nameUserPhone;//用户名和手机号
+    @BindView(R.id.address_user)
+    TextView addressUser;//用户地址
+    @BindView(R.id.order_user)
+    TextView orderUser;//订单号
+    @BindView(R.id.state_user)
+    TextView stateUser;//发货状态
+    @BindView(R.id.name_user)
+    TextView nameUser;//快递名
+    @BindView(R.id.number_user)
+    TextView numberUser;//邮寄号
+    @BindView(R.id.user_rl)
+    RelativeLayout userRl;//地址填写跳转
+    @BindView(R.id.rl_one)
+    RelativeLayout rlOne;
+    @BindView(R.id.rl_two)
+    RelativeLayout rlTwo;
+    @BindView(R.id.rl_three)
+    RelativeLayout rlThree;
+    @BindView(R.id.exchange_img)
+    ImageView exchangeImg;
+    @BindView(R.id.mail_img)
+    ImageView mailImg;
+
+    private PlayDetailsPresenter playDetailsPresenter = new PlayDetailsPresenter(this);
+
+    private PlayDetailsEntity playDetailsEntity;
+
+    @Override
+    protected void initView() {
+        setContentView(R.layout.activity_play_datails);
+        ButterKnife.bind(this);
+        setImmersionStatus(R.id.layout);//设置澄清栏
+    }
+
+    @Override
+    protected void setView() {
+        setHead(getString(R.string.play_datails), R.drawable.ic_back);//设置标题栏信息
+        Bundle bundle = getIntent().getExtras();
+        //添加数据
+        playDetailsEntity = (PlayDetailsEntity) bundle.getSerializable("entity");
+        if (null == playDetailsEntity) {
+            return;
+        }
+        ImageSetting.onImageSetting(this, playDetailsEntity.img, playImg);
+        nameTv.setText(playDetailsEntity.title);
+        timeTv.setText(playDetailsEntity.ctime);
+        numberTv.setText(playDetailsEntity.number);
+        serialNumberTv.setText(playDetailsEntity.clid);
+        exchangeCurrencyTv.setText(playDetailsEntity.duihuan);
+        nameUserPhone.setText(playDetailsEntity.name + " " + playDetailsEntity.phone);
+        addressUser.setText(playDetailsEntity.address);
+        orderUser.setText(playDetailsEntity.winnerid);
+        nameUser.setText(playDetailsEntity.out_name);
+        numberUser.setText(playDetailsEntity.out_id);
+        switch (playDetailsEntity.status) {
+            case "0":
+                onGone();
+                rlOne.setVisibility(View.VISIBLE);
+                rlTwo.setVisibility(View.VISIBLE);
+                onText(getString(R.string.deposit));
+                break;
+            case "1":
+                onGone();
+                rlThree.setVisibility(View.VISIBLE);
+                onText(getString(R.string.lssue));
+                break;
+            case "2":
+                onGone();
+                rlThree.setVisibility(View.VISIBLE);
+                onText(getString(R.string.receipt));
+                break;
+            case "3":
+                onGone();
+                rlOne.setVisibility(View.VISIBLE);
+                rlTwo.setVisibility(View.VISIBLE);
+                onText(getString(R.string.exchange));
+                break;
+        }
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
+    public void onGone() {
+        rlOne.setVisibility(View.GONE);
+        rlTwo.setVisibility(View.GONE);
+        rlThree.setVisibility(View.GONE);
+    }
+
+    public void onText(String string) {
+        currentStateTv.setText(string);
+        stateUser.setText(string);
+    }
+
+    /**
+     * 跳转页面
+     *
+     * @param cls    页面class
+     * @param bundle 数据
+     */
+    @Override
+    public void startAct(Class<?> cls, Bundle bundle) {
+        startIntent(cls, bundle);
+    }
+
+    /**
+     * 设置相关数据
+     *
+     * @param playDatailsEntity
+     */
+    @Override
+    public void onBarrage(PlayDetailsEntity playDatailsEntity) {
+        //这里处理数据在上个界面已经处理好；因为要用到这个接口来封装该界面上的按钮点击事件，所以回调了这个方法；这里暂时不需要处理逻辑业务
+    }
+
+    @OnClick({R.id.exchange_img, R.id.mail_img, R.id.user_rl})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.exchange_img:
+                playDetailsPresenter.onClick(2);
+                break;
+            case R.id.mail_img:
+                playDetailsPresenter.onClick(3);
+                break;
+            case R.id.user_rl:
+                playDetailsPresenter.onClick(1);
+                break;
+        }
+    }
+}

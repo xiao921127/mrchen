@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="500px"
+        android:layout_height="320px"
+        android:layout_centerInParent="true"
+        android:background="@drawable/white_datails">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_dialog"
+            android:textColor="@color/black_text"
+            android:textSize="25px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45px" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/content_dialog"
+            android:textSize="23px"
+            android:textColor="@color/black_text"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="20px"
+            android:layout_centerInParent="true"
+            android:lineSpacingMultiplier="2"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray_hint"
+            android:layout_marginTop="240px"/>
+        <View
+            android:layout_width="1px"
+            android:layout_height="80px"
+            android:background="@color/gray_hint"
+            android:layout_marginTop="240px"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/share_dialog"
+            android:layout_width="250px"
+            android:layout_height="80px"
+            android:layout_alignParentBottom="true"
+            android:text="@string/share"
+            android:textSize="30px"
+            android:textColor="@color/empty"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/recharge_dialog"
+            android:layout_width="250px"
+            android:layout_height="80px"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/recharge"
+            android:textSize="30px"
+            android:textColor="@color/black_text"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+</RelativeLayout>

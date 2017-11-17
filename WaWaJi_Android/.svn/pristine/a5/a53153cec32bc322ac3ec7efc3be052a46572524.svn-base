@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout"
+    android:background="@drawable/ic_actionbar_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_bg"
+        android:orientation="vertical">
+        <!--<include layout="@layout/base_actionbar_back" />-->
+
+        <include layout="@layout/base_actionbar" />
+
+        <TextView
+            android:id="@+id/tv_verify_title"
+            style="@style/Black_Front16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/app_name" />
+
+        <com.wawaji.app.ui.widget.SecurityCodeView
+            android:id="@+id/sv_verify_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/tv_verify_register"
+            style="@style/White_Front18"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/empty"
+            android:text="@string/confirm_register" />
+
+        <TextView
+            android:id="@+id/tv_verify_getcode"
+            style="@style/Black_Front16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/get_verify_code"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_verify_retrieve"
+            style="@style/Gray_Front14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/get_verify_code_again" />
+    </LinearLayout>
+</RelativeLayout>

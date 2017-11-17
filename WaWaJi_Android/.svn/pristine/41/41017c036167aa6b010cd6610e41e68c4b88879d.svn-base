@@ -1,0 +1,29 @@
+<resources>
+
+    <!--App-->
+    <string name="app_name">全民抓娃娃</string>
+
+    <!--Toast提示内容-->
+    <string name="toast_exit">再按一次退出全民抓娃娃!</string>
+
+    <!--登录-->
+    <string name="login">登录</string>
+    <string name="enter_account">请输入邮箱或者手机号</string>
+    <string name="enter_password">请输入密码</string>
+    <string name="message_login">使用短信验证码登录</string>
+    <string name="forget_password">忘记密码?</string>
+    <string name="register_prompt">注册或使用合作网站账号登录即视为您已同意</string>
+    <string name="user_access_protocol">《用户使用协议》</string>
+    <string name="login_other">合作网站账号登录</string>
+
+
+    <!--校验器提示内容-->
+    <string name="enter_content_promt">输入内容不能少于1个字符</string>
+    <string name="please_enter_phone">请输入手机号</string>
+    <string name="please_enter_account">请输入账号</string>
+    <string name="please_enter_code">请输入验证码</string>
+    <string name="please_enter_invite">请输入邀请码(可不填)</string>
+    <string name="input_sms_code">请输入短信中的验证码</string>
+    <string name="please_enter_release_content">请输入发布内容</string>
+
+</resources>

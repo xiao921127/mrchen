@@ -1,0 +1,54 @@
+package com.wawaji.app.presenter;
+
+import com.wawaji.app.contract.SettingsContract;
+import com.wawaji.app.interf.OnRequestChangeListener;
+import com.wawaji.app.model.SettingsModel;
+
+/**
+ * 设置控制器
+ * <p>
+ * Created by admin on 2017/11/10.
+ */
+
+public class SettingsPresenter implements SettingsContract.Presenter {
+
+    private SettingsContract.View mView;
+
+    private SettingsModel mModel;
+
+    public SettingsPresenter(SettingsContract.View view) {
+        mView = view;
+        mModel = new SettingsModel();
+    }
+
+    @Override
+    public void onClick(int type) {
+        switch (type) {
+            case 1:
+                mView.onLoading();
+                mModel.logout(mLogoutListener);
+                break;
+        }
+    }
+
+    /**
+     * 退出登录回调
+     */
+    private OnRequestChangeListener<String> mLogoutListener = new OnRequestChangeListener<String>() {
+        @Override
+        public void onSuccess(String s) {
+            mView.onComplete();
+            mView.logoutSuccess();
+        }
+
+        @Override
+        public void onFailure() {
+            mView.onComplete();
+        }
+
+        @Override
+        public void onError() {
+            mView.onComplete();
+        }
+    };
+}

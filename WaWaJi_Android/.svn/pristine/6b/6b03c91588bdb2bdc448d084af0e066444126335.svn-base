@@ -1,0 +1,28 @@
+package com.wawaji.app.contract;
+
+import com.wawaji.common.base.BaseModel;
+import com.wawaji.common.base.BasePresenter;
+
+/**
+ * 设置页面MVP架构
+ *
+ * Created by admin on 2017/10/25.
+ */
+
+public interface SettingsContract {
+
+    interface View {
+
+
+    }
+
+    interface Presenter extends BasePresenter {
+
+    }
+
+    interface Model extends BaseModel {
+
+
+    }
+
+}

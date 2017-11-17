@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><!-- LinearLayout不能去掉，否则会出错 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray_bg"
+    android:gravity="bottom">
+
+    <RelativeLayout
+        android:id="@+id/xlistview_header_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/xlistview_header_arrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:src="@drawable/level_refresh_loading" />
+
+        <!--<com.facebook.drawee.view.SimpleDraweeView-->
+            <!--android:id="@+id/xlistview_header_progressbar"-->
+            <!--style="@style/My_ProgressBar_Loading"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:visibility="gone" />-->
+
+    </RelativeLayout>
+
+</LinearLayout>

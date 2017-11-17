@@ -1,0 +1,172 @@
+// Generated code from Butter Knife. Do not modify!
+package com.wawaji.app.ui;
+
+import android.support.annotation.CallSuper;
+import android.support.annotation.UiThread;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import butterknife.Unbinder;
+import butterknife.internal.DebouncingOnClickListener;
+import butterknife.internal.Utils;
+import com.wawaji.app.R;
+import java.lang.IllegalStateException;
+import java.lang.Override;
+
+public class SettingsAct_ViewBinding implements Unbinder {
+  private SettingsAct target;
+
+  private View view2131427452;
+
+  private View view2131427478;
+
+  private View view2131427453;
+
+  private View view2131427470;
+
+  private View view2131427471;
+
+  private View view2131427472;
+
+  private View view2131427475;
+
+  private View view2131427476;
+
+  private View view2131427477;
+
+  @UiThread
+  public SettingsAct_ViewBinding(SettingsAct target) {
+    this(target, target.getWindow().getDecorView());
+  }
+
+  @UiThread
+  public SettingsAct_ViewBinding(final SettingsAct target, View source) {
+    this.target = target;
+
+    View view;
+    view = Utils.findRequiredView(source, R.id.iv_actionbar_logo, "field 'ivActionbarLogo' and method 'onViewClicked'");
+    target.ivActionbarLogo = Utils.castView(view, R.id.iv_actionbar_logo, "field 'ivActionbarLogo'", ImageView.class);
+    view2131427452 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.tv_actionbar_title, "field 'tvActionbarTitle' and method 'onViewClicked'");
+    target.tvActionbarTitle = Utils.castView(view, R.id.tv_actionbar_title, "field 'tvActionbarTitle'", TextView.class);
+    view2131427478 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.iv_actionbar_left, "field 'ivActionbarLeft' and method 'onViewClicked'");
+    target.ivActionbarLeft = Utils.castView(view, R.id.iv_actionbar_left, "field 'ivActionbarLeft'", ImageView.class);
+    view2131427453 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.rl_settings_msg, "field 'rlSettingsMsg' and method 'onViewClicked'");
+    target.rlSettingsMsg = Utils.castView(view, R.id.rl_settings_msg, "field 'rlSettingsMsg'", RelativeLayout.class);
+    view2131427470 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.rl_settings_invite, "field 'rlSettingsInvite' and method 'onViewClicked'");
+    target.rlSettingsInvite = Utils.castView(view, R.id.rl_settings_invite, "field 'rlSettingsInvite'", RelativeLayout.class);
+    view2131427471 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.rl_settings_invite_code, "field 'rlSettingsInviteCode' and method 'onViewClicked'");
+    target.rlSettingsInviteCode = Utils.castView(view, R.id.rl_settings_invite_code, "field 'rlSettingsInviteCode'", RelativeLayout.class);
+    view2131427472 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    target.cbSettingsBgm = Utils.findRequiredViewAsType(source, R.id.cb_settings_bgm, "field 'cbSettingsBgm'", CheckBox.class);
+    target.cbSettingsSound = Utils.findRequiredViewAsType(source, R.id.cb_settings_sound, "field 'cbSettingsSound'", CheckBox.class);
+    view = Utils.findRequiredView(source, R.id.rl_settings_feedback, "field 'rlSettingsFeedback' and method 'onViewClicked'");
+    target.rlSettingsFeedback = Utils.castView(view, R.id.rl_settings_feedback, "field 'rlSettingsFeedback'", RelativeLayout.class);
+    view2131427475 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.rl_settings_about_us, "field 'rlSettingsAboutUs' and method 'onViewClicked'");
+    target.rlSettingsAboutUs = Utils.castView(view, R.id.rl_settings_about_us, "field 'rlSettingsAboutUs'", RelativeLayout.class);
+    view2131427476 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.tv_settings_exit, "field 'tvSettingsExit' and method 'onViewClicked'");
+    target.tvSettingsExit = Utils.castView(view, R.id.tv_settings_exit, "field 'tvSettingsExit'", TextView.class);
+    view2131427477 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+  }
+
+  @Override
+  @CallSuper
+  public void unbind() {
+    SettingsAct target = this.target;
+    if (target == null) throw new IllegalStateException("Bindings already cleared.");
+    this.target = null;
+
+    target.ivActionbarLogo = null;
+    target.tvActionbarTitle = null;
+    target.ivActionbarLeft = null;
+    target.rlSettingsMsg = null;
+    target.rlSettingsInvite = null;
+    target.rlSettingsInviteCode = null;
+    target.cbSettingsBgm = null;
+    target.cbSettingsSound = null;
+    target.rlSettingsFeedback = null;
+    target.rlSettingsAboutUs = null;
+    target.tvSettingsExit = null;
+
+    view2131427452.setOnClickListener(null);
+    view2131427452 = null;
+    view2131427478.setOnClickListener(null);
+    view2131427478 = null;
+    view2131427453.setOnClickListener(null);
+    view2131427453 = null;
+    view2131427470.setOnClickListener(null);
+    view2131427470 = null;
+    view2131427471.setOnClickListener(null);
+    view2131427471 = null;
+    view2131427472.setOnClickListener(null);
+    view2131427472 = null;
+    view2131427475.setOnClickListener(null);
+    view2131427475 = null;
+    view2131427476.setOnClickListener(null);
+    view2131427476 = null;
+    view2131427477.setOnClickListener(null);
+    view2131427477 = null;
+  }
+}

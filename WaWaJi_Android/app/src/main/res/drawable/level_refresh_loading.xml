@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/gv_loading_img1"
+        android:maxLevel="60"/>
+    <item
+        android:drawable="@drawable/gv_loading_img1"
+        android:maxLevel="120"/>
+    <item
+        android:drawable="@drawable/gv_loading_img2"
+        android:maxLevel="180"/>
+    <item
+        android:drawable="@drawable/gv_loading_img2"
+        android:maxLevel="240"/>
+    <item
+        android:drawable="@drawable/gv_loading_img3"
+        android:maxLevel="300"/>
+    <item
+        android:drawable="@drawable/gv_loading_img3"
+        android:maxLevel="360"/>
+    <item
+        android:drawable="@drawable/gv_loading_img4"
+        android:maxLevel="420"/>
+    <item
+        android:drawable="@drawable/gv_loading_img4"
+        android:maxLevel="480"/>
+
+</level-list>

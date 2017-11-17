@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\project\\WaWaJi_Android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi\\ic_launcher.png",
+        "source": "D:\\project\\WaWaJi_Android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\project\\WaWaJi\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi\\ic_launcher.png",
+        "source": "D:\\project\\WaWaJi\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    }
+]

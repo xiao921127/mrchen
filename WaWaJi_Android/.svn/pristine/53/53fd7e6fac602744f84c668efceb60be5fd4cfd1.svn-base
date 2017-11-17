@@ -1,0 +1,164 @@
+package com.wawaji.app.presenter;
+
+import android.content.Context;
+import android.os.Bundle;
+
+import com.wawaji.app.contract.LoginContract;
+import com.wawaji.app.entity.UserEntity;
+import com.wawaji.app.entity.VerifyEntity;
+import com.wawaji.app.interf.OnImageCodeChangeListener;
+import com.wawaji.app.interf.OnRequestChangeListener;
+import com.wawaji.app.interf.OnVerifyChangeListener;
+import com.wawaji.app.model.LoginModel;
+import com.wawaji.app.model.VerifyModel;
+import com.wawaji.app.ui.VerifyAct;
+import com.wawaji.app.ui.dialog.VerifyCodeDialog;
+import com.wawaji.common.utils.EncodeUtils;
+
+/**
+ * 登录控制器
+ * <p>
+ * Created by admin on 2017/11/8.
+ */
+
+public class LoginPresenter implements LoginContract.Presenter {
+
+    private Context mContext;
+
+    private LoginContract.View mView;
+
+    private LoginModel mLoginModel;//登录模型
+
+    private VerifyModel mVerifyModel;//验证码模型
+
+    private VerifyCodeDialog mDialog_verify_code;//图片验证码弹框
+
+    private VerifyEntity mVerifyEntity;//验证码信息
+
+    public LoginPresenter(LoginContract.View view) {
+        if (view instanceof Context) {
+            mContext = (Context) view;
+        }
+        mView = view;
+        mLoginModel = new LoginModel();
+        mVerifyModel = new VerifyModel();
+    }
+
+    @Override
+    public void onClick(int type) {
+
+    }
+
+    @Override
+    public void loginPhonePwd(String phone, String pwd) {
+        mView.onLoading();
+        mLoginModel.loginPhonePwd(phone, pwd, mLoginListener);
+    }
+
+    @Override
+    public void sendVerify(VerifyEntity entity) {
+        mView.onLoading();
+        mVerifyEntity = entity;
+        mVerifyModel.onSendVerify(entity, mVerifyListener);
+    }
+
+    /**
+     * 登录回调
+     */
+    private OnRequestChangeListener<UserEntity> mLoginListener = new OnRequestChangeListener<UserEntity>() {
+        @Override
+        public void onSuccess(UserEntity userEntity) {
+            mView.onComplete();
+        }
+
+        @Override
+        public void onFailure() {
+            mView.onComplete();
+        }
+
+        @Override
+        public void onError() {
+            mView.onComplete();
+        }
+    };
+
+    /**
+     * 验证码回调
+     */
+    private OnVerifyChangeListener mVerifyListener = new OnVerifyChangeListener() {
+        @Override
+        public void showVoiceDialog(boolean is_show) {
+
+        }
+
+        @Override
+        public void showImageDialog(String image) {
+            mView.onComplete();
+            if (null == mDialog_verify_code) {
+                mDialog_verify_code = new VerifyCodeDialog(mContext);
+                mDialog_verify_code.setClickListener(mCodeListener);
+            }
+            mDialog_verify_code.showDialog();
+            mDialog_verify_code.setCodeImage(image);
+        }
+
+        @Override
+        public void onEncode(String key, String server_time) {
+            mVerifyEntity.verify = EncodeUtils.MINE.encode(key, server_time);
+            mVerifyModel.onSendVerify(mVerifyEntity, this);
+        }
+
+        @Override
+        public void onVerifySuccess() {
+            mView.onComplete();
+            Bundle bundle = new Bundle();
+            bundle.putString("phone", mVerifyEntity.phone);
+            mView.startAct(VerifyAct.class, bundle);
+        }
+
+        @Override
+        public void onVerifyFailure() {
+            mView.onComplete();
+        }
+    };
+
+    /**
+     * 验证码弹框回调
+     */
+    private VerifyCodeDialog.OnCodeClickListener mCodeListener = new VerifyCodeDialog.OnCodeClickListener() {
+
+        @Override
+        public void onRefreshImage() {
+            mVerifyModel.onRefreshImage(mImageCodeListener);
+        }
+
+        @Override
+        public void onSure(String code) {
+            mVerifyEntity.verify = code;
+            mVerifyModel.onSendVerify(mVerifyEntity, mVerifyListener);
+            mDialog_verify_code.dismissDialog();
+        }
+    };
+
+    /**
+     * 刷新验证码回调
+     */
+    private OnImageCodeChangeListener mImageCodeListener = new OnImageCodeChangeListener() {
+
+        @Override
+        public void onImageSuccess(VerifyEntity entity) {
+            if (null != mDialog_verify_code) {
+                mDialog_verify_code.setCodeImage(entity.image);
+                mVerifyEntity.token = entity.token;
+            }
+        }
+
+        @Override
+        public void onImageFailure() {
+            // 图片验证码刷新失败
+            if (null != mDialog_verify_code) {
+                mDialog_verify_code.setCodeImage(null);
+            }
+        }
+    };
+}

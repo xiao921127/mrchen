@@ -1,0 +1,123 @@
+package com.wawaji.app.ui;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.wawaji.app.R;
+import com.wawaji.app.contract.PlayDetailsContract;
+import com.wawaji.app.entity.PlayDetailsEntity;
+import com.wawaji.app.presenter.PlayDetailsPresenter;
+import com.wawaji.common.base.BaseActivity;
+import com.wawaji.common.utils.ImageSetting;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class PlayDetailsAct extends BaseActivity{
+
+    @BindView(R.id.play_img)
+    ImageView playImg;//娃娃图片
+    @BindView(R.id.name_tv)
+    TextView nameTv;//娃娃名字
+    @BindView(R.id.time_tv)
+    TextView timeTv;//时间
+    @BindView(R.id.number_tv)
+    TextView numberTv;//数量
+    @BindView(R.id.serial_number_tv)
+    TextView serialNumberTv;//游戏编号;
+    @BindView(R.id.current_state_tv)
+    TextView currentStateTv;//当前状态
+    @BindView(R.id.exchange_currency_tv)
+    TextView exchangeCurrencyTv;//可换娃娃币
+    @BindView(R.id.name_user_phone)
+    TextView nameUserPhone;//用户名和手机号
+    @BindView(R.id.address_user)
+    TextView addressUser;//用户地址
+    @BindView(R.id.order_user)
+    TextView orderUser;//订单号
+    @BindView(R.id.state_user)
+    TextView stateUser;//发货状态
+    @BindView(R.id.name_user)
+    TextView nameUser;//快递名
+    @BindView(R.id.number_user)
+    TextView numberUser;//邮寄号
+    @BindView(R.id.user_rl)
+    RelativeLayout userRl;//地址填写跳转
+    @BindView(R.id.rl_one)
+    RelativeLayout rlOne;
+    @BindView(R.id.rl_two)
+    RelativeLayout rlTwo;
+    @BindView(R.id.rl_three)
+    RelativeLayout rlThree;
+
+    @Override
+    protected void initView() {
+        setContentView(R.layout.activity_play_datails);
+        ButterKnife.bind(this);
+        setImmersionStatus(new View(this), R.id.layout);//设置澄清栏
+    }
+    @Override
+    protected void setView() {
+        setHead(getString(R.string.play_datails), R.drawable.ic_back);//设置标题栏信息
+        Bundle bundle = getIntent().getExtras();
+        //添加数据
+        ImageSetting.onImageSetting(this, bundle.getString("img"), playImg);
+        nameTv.setText(bundle.getString("title"));
+        timeTv.setText(bundle.getString("ctime"));
+        numberTv.setText(bundle.getString("number"));
+        serialNumberTv.setText(bundle.getString("clid"));
+        exchangeCurrencyTv.setText(bundle.getString("duihuan"));
+        nameUserPhone.setText(bundle.getString("name_phone"));
+        addressUser.setText(bundle.getString("address"));
+        orderUser.setText(bundle.getString("winnerid"));
+        nameUser.setText(bundle.getString("out_name"));
+        numberUser.setText(bundle.getString("out_id"));
+        switch (bundle.getString("status")) {
+            case "0":
+                onGone();
+                rlOne.setVisibility(View.VISIBLE);
+                rlTwo.setVisibility(View.VISIBLE);
+                onText(getString(R.string.deposit),getString(R.string.deposit));
+                break;
+            case "1":
+                onGone();
+                rlThree.setVisibility(View.VISIBLE);
+                onText(getString(R.string.lssue),getString(R.string.lssue));
+                break;
+            case "2":
+                onGone();
+                rlThree.setVisibility(View.VISIBLE);
+                onText(getString(R.string.receipt),getString(R.string.receipt));
+                break;
+            case "3":
+                onGone();
+                rlOne.setVisibility(View.VISIBLE);
+                rlTwo.setVisibility(View.VISIBLE);
+                onText(getString(R.string.exchange),getString(R.string.exchange));
+                break;
+        }
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+    @OnClick(R.id.user_rl)
+    public void onViewClicked() {
+        Toast.makeText(this,"设置",Toast.LENGTH_SHORT).show();
+    }
+    public void onGone(){
+        rlOne.setVisibility(View.GONE);
+        rlTwo.setVisibility(View.GONE);
+        rlThree.setVisibility(View.GONE);
+    }
+    public void onText(String current,String state ){
+        currentStateTv.setText(current);
+        stateUser.setText(state);
+    }
+}

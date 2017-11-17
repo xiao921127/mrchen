@@ -1,0 +1,80 @@
+package com.wawaji.app.presenter;
+
+import com.wawaji.app.contract.HomeContract;
+import com.wawaji.app.entity.DollsEntity;
+import com.wawaji.app.entity.UserEntity;
+import com.wawaji.app.interf.BaseListChangeListener;
+import com.wawaji.app.model.HomeModel;
+import com.wawaji.app.ui.LoginAct;
+import com.wawaji.app.ui.MyAct;
+import com.wawaji.common.https.entity.HttpResponse;
+import java.util.ArrayList;
+
+/**
+ * 主页控制器
+ * <p>
+ * Created by admin on 2017/10/20.
+ */
+
+public class HomePresenter implements HomeContract.Presenter {
+
+    private HomeContract.View<DollsEntity> mView;
+
+    private HomeModel mModel;
+
+    public HomePresenter(HomeContract.View<DollsEntity> view) {
+        mView = view;
+        mModel = new HomeModel();
+    }
+
+    @Override
+    public void onClick(int type) {
+        switch (type) {
+            case 1://我的
+//                mView.startAct(MyAct.class, null);
+                if (!UserEntity.isLogin()) {
+                    mView.startAct(LoginAct.class, null);
+                } else {
+                    mView.startAct(MyAct.class, null);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        mModel.getHomeData(1, dataListener);
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    private BaseListChangeListener<DollsEntity> dataListener = new BaseListChangeListener<DollsEntity>() {
+        @Override
+        public void onRefresh(ArrayList<DollsEntity> list, int more) {
+            mView.onRefreshList(list);
+        }
+
+        @Override
+        public void onLoad(ArrayList<DollsEntity> list) {
+
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+        @Override
+        public void onError(HttpResponse result) {
+
+        }
+
+        @Override
+        public void onNoMoreData() {
+
+        }
+    };
+
+}

@@ -1,0 +1,62 @@
+package com.wawaji.app.entity;
+
+import com.wawaji.common.base.BaseEntity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/**
+ * 在此写用途
+ *
+ * @author admin
+ * @version V1.0 <描述当前版本功能>
+ * @since 2017/11/13 11:44
+ */
+
+public class PlayDetailsEntity implements BaseEntity {
+
+    public String winnerid;//订单号
+
+    public String clid;//游戏编号
+
+    public String title;//娃娃名字
+
+    public String img;//图片
+
+    public String duihuan;//可兑换娃娃币
+
+    public String ctime;//时间
+
+    public String status;//兑换状态
+
+    public String name;//客户名字
+
+    public String phone;//手机号码
+
+    public String address;//地址
+
+    public String out_id;//快递编号
+
+    public String out_name;//快递名称
+
+    public String number;//数量
+
+
+    @Override
+    public void fromJson(String json) throws JSONException {
+        JSONObject jb = new JSONObject(json);
+        winnerid = jb.optString("winnerid");
+        clid = jb.optString("clid");
+        title = jb.optString("title");
+        img = jb.optString("img");
+        duihuan = jb.optString("duihuan");
+        ctime = jb.optString("ctime");
+        status = jb.optString("status");
+        name = jb.optString("name");
+        phone = jb.optString("phone");
+        address = jb.optString("address");
+        out_id = jb.optString("out_id");
+        out_name = jb.optString("out_name");
+        number = jb.optString("number");
+    }
+}

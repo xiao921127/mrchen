@@ -1,0 +1,79 @@
+package com.wawaji.app.presenter;
+
+import com.wawaji.app.contract.PlayContract;
+import com.wawaji.app.entity.RoomDetailsEntity;
+import com.wawaji.app.interf.OnRequestChangeListener;
+import com.wawaji.app.model.PlayModel;
+
+/**
+ * 游戏页面控制器
+ * <p>
+ * Created by admin on 2017/11/7.
+ */
+
+public class PlayPresenter implements PlayContract.Presenter {
+
+    private PlayContract.View mView;
+
+    private PlayModel mModel;
+
+    public PlayPresenter(PlayContract.View view) {
+        mView = view;
+        mModel = new PlayModel();
+    }
+
+    @Override
+    public void onClick(int type) {
+
+    }
+
+    @Override
+    public void getRoomDetails(String roomid) {
+        mModel.getRoomDetails(roomid, mRoomDetailsListener);
+    }
+
+    @Override
+    public void startGame(String roomid) {
+        mModel.startGame(roomid, mStartGameListener);
+    }
+
+    /**
+     * 房间详情回调
+     */
+    private OnRequestChangeListener<RoomDetailsEntity> mRoomDetailsListener = new OnRequestChangeListener<RoomDetailsEntity>() {
+        @Override
+        public void onSuccess(RoomDetailsEntity roomDetailsEntity) {
+            mView.setRoomDetails(roomDetailsEntity);
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+
+    /**
+     * 开始游戏回调
+     */
+    private OnRequestChangeListener<RoomDetailsEntity> mStartGameListener = new OnRequestChangeListener<RoomDetailsEntity>() {
+        @Override
+        public void onSuccess(RoomDetailsEntity roomDetailsEntity) {
+            mView.setRoomDetails(roomDetailsEntity);
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+}

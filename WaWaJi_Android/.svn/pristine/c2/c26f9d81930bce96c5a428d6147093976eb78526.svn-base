@@ -1,0 +1,64 @@
+package com.wawaji.app.entity;
+
+import com.wawaji.common.base.BaseEntity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+/**
+ * 房间详情实体
+ * <p>
+ * Created by admin on 2017/11/7.
+ */
+
+public class RoomDetailsEntity implements BaseEntity {
+
+//    public DollsEntity entity = new DollsEntity();
+
+    public ArrayList<PlayerRecordEntity> records = new ArrayList<>();
+
+    public String roomid;//房间id
+
+    public String wid;//
+
+    public String title;
+
+    public String price;//每次花费
+
+    public String video_url_1;//摄像头1地址
+
+    public String video_url_2;//摄像头2地址
+
+    public String token;//操作设备所需token
+
+    public String url;//操作使用的websocket服务器地址
+
+    public String camera_url;//视频推流地址
+
+    @Override
+    public void fromJson(String json) throws JSONException {
+        JSONObject jb = new JSONObject(json);
+        JSONObject wawainfo = jb.optJSONObject("wawainfo");
+        roomid = wawainfo.optString("roomid");
+        wid = wawainfo.optString("wid");
+        title = wawainfo.optString("title");
+        price = wawainfo.optString("price");
+        video_url_1 = wawainfo.optString("video_url_1");
+        video_url_2 = wawainfo.optString("video_url_2");
+
+        JSONArray winnerlist = jb.optJSONArray("winnerlist");
+        int length = winnerlist.length();
+        for (int i = 0; i < length; i++) {
+            PlayerRecordEntity entity = new PlayerRecordEntity();
+            entity.fromJson(winnerlist.optString(i));
+            records.add(entity);
+        }
+
+        token = jb.optString("token");
+        url = jb.optString("url");
+        camera_url = jb.optString("camera_url");
+    }
+}

@@ -1,0 +1,238 @@
+package com.wawaji.app.entity;
+
+import android.content.SharedPreferences;
+import android.text.TextUtils;
+
+import com.wawaji.app.AppApplication;
+import com.wawaji.app.AppConfig;
+import com.wawaji.app.config.StringConfig;
+import com.wawaji.app.observable.AppObservable;
+import com.wawaji.common.base.BaseEntity;
+import com.wawaji.common.utils.LogUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+/**
+ * 用户实体类
+ *
+ * @author admin
+ * @version V1.0 <用户实体类>
+ * @since 2016/7/11
+ */
+public class UserEntity implements BaseEntity {
+
+    private final static String MONEY = "0.00";
+
+    public String uid; // UID
+
+    public String sid; // SID
+
+    public String nickname; // 昵称
+
+    public String username; // 真实姓名
+
+//    public String alipay; // 支付宝
+
+    public String mobile; //电话
+
+    public String avatar;//头像
+
+    private boolean isOnline = false; // 用户是否在线
+
+//
+
+    @Override
+    public void fromJson(String json) throws JSONException {
+        if (TextUtils.isEmpty(json)) {
+            return;
+        }
+        JSONObject jb = new JSONObject(json);
+        nickname = jb.optString("nickname");
+        username = jb.optString("tbusername");
+        avatar = jb.optString("avatar");
+        mobile = jb.optString("mobile");
+        uid = jb.optString("uid");
+        sid = jb.optString("sid");
+    }
+
+    /**
+     * 判断是否登录
+     *
+     * @return boolean
+     */
+    private boolean islogin() {
+        return !TextUtils.isEmpty(uid);
+    }
+
+    /**
+     * 上线
+     */
+    public void doOnline() {
+        if (this.doLogin()) {
+            isOnline = true;
+        }
+    }
+
+    /**
+     * 是否在线
+     *
+     * @return boolean
+     */
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    /**
+     * 获得Person实例
+     *
+     * @return 用户信息
+     */
+    public static UserEntity getCurUser() {
+        return AppApplication.getInstance().getCurUser();
+    }
+
+    /**
+     * 是否登录
+     *
+     * @return boolean
+     */
+    public static boolean isLogin() {
+        UserEntity p = getCurUser();
+        return p.islogin();
+    }
+
+    /**
+     * 登录时调用
+     *
+     * @return boolean
+     */
+    private boolean doLogin() {
+        if (!islogin()) {
+            LogUtils.e("User is not login!");
+            return false;
+        }
+        SharedPreferences sp = AppApplication.getPreferences(AppConfig.USER);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(StringConfig.KEY_USER_UID, uid);
+        editor.putString(StringConfig.KEY_USER_SID, sid);
+        editor.putString(StringConfig.KEY_USER_NICKNAME, nickname);
+        editor.putString(StringConfig.KEY_USER_MOBILE, mobile);
+//        editor.putString(StringConfig.KEY_USER_ALIPAY, alipay);
+        editor.putString(StringConfig.KEY_USER_REAL_NAME, username);
+        editor.apply();
+
+        //设置推送alias
+        AppApplication.getInstance().setPushAlias(uid);
+        AppApplication.getInstance().setCurUser(this);
+        notifyChanged(this);
+        return true;
+    }
+
+    /**
+     * 退出登录
+     */
+    public static void doLogout() {
+        // 清除缓存数据
+        SharedPreferences sp = AppApplication.getPreferences(AppConfig.USER);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.apply();
+
+        //注销设置推送alias
+        AppApplication.getInstance().unSetPushAlias();
+        // 清除User数据
+        AppApplication.getInstance().setCurUser(null);
+        notifyChanged(getCurUser());
+    }
+
+    /**
+     * The list of observers.  An observer can be in the list at most
+     * once and will never be null.
+     */
+    private static final ArrayList<AppObservable.onUserChangeListener> mObservers = new ArrayList<>();
+
+    /**
+     * Adds an observer to the list. The observer cannot be null and it must not already
+     * be registered.
+     *
+     * @param observer the observer to register
+     * @throws IllegalArgumentException the observer is null
+     * @throws IllegalStateException    the observer is already registered
+     */
+    public static void registerObserver(AppObservable.onUserChangeListener observer) {
+        if (observer == null) {
+            throw new IllegalArgumentException("The observer is null.");
+        }
+        synchronized (mObservers) {
+            if (mObservers.contains(observer)) {
+                throw new IllegalStateException("Observer " + observer + " is already registered.");
+            }
+            mObservers.add(observer);
+        }
+    }
+
+    /**
+     * Removes a previously registered observer. The observer must not be null and it
+     * must already have been registered.
+     *
+     * @param observer the observer to unregister
+     * @throws IllegalArgumentException the observer is null
+     * @throws IllegalStateException    the observer is not yet registered
+     */
+    public static void unregisterObserver(AppObservable.onUserChangeListener observer) {
+        if (observer == null) {
+            throw new IllegalArgumentException("The observer is null.");
+        }
+        synchronized (mObservers) {
+            int index = mObservers.indexOf(observer);
+            if (index == -1) {
+                throw new IllegalStateException("Observer " + observer + " was not registered.");
+            }
+            mObservers.remove(index);
+        }
+    }
+
+    /**
+     * Remove all registered observers.
+     */
+    public static void unregisterAll() {
+        synchronized (mObservers) {
+            mObservers.clear();
+        }
+    }
+
+    /**
+     * 数据改变监听
+     */
+    public static void notifyChanged(UserEntity user) {
+        if (null == user) {
+            return;
+        }
+        synchronized (mObservers) {
+            for (int i = mObservers.size() - 1; i >= 0; i--) {
+                if (mObservers.get(i) != null) {
+                    mObservers.get(i).onChanged(user);
+                }
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "uid='" + uid + '\'' +
+                ", sid='" + sid + '\'' +
+                ", nickname='" + nickname + '\'' +
+//                ", alipay='" + alipay + '\'' +
+//                ", money='" + money + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", avatar='" + avatar + '\'' +
+//                ", get_money='" + get_money + '\'' +
+//                ", total_money='" + total_money + '\'' +
+//                ", isOnline=" + isOnline +
+                '}';
+    }
+}

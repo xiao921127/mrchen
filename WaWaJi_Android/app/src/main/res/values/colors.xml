@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme Style-->
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#F7F7F7</color>
+    <color name="colorAccent">#000000</color>
+
+    <!-- 白色 -->
+    <color name="white">#FFFFFF</color>
+    <color name="white_transparent">#00ffffff</color>
+    <color name="white_transparent_half">#f2ffffff</color>
+
+    <!-- 黑色 -->
+    <color name="black">#000000</color>
+    <color name="black_text">#2A2A2A</color>
+    <color name="black_content">#323232</color>
+    <color name="black_transparent_half">#7F000000</color>
+
+    <!-- 灰色 -->
+    <color name="gray_bg">#F7F7F7</color>
+    <color name="gray_bg_transparent">#F3F7F7F7</color>
+    <color name="gray_line">#EDEDED</color>
+    <color name="gray_light">#ECECEC</color>
+    <color name="gray_hint">#C1C1C1</color>
+    <color name="gray_text">#989898</color>
+    <color name="gray_transparent_half">#eed2d2d2</color>
+    
+    <color name="playing">#ffdc1b</color>
+    <color name="empty">#7bd563</color>
+    <color name="playing_text">#895707</color>
+
+    <color name="recharge_bg">#EFFDC0</color>
+
+</resources>

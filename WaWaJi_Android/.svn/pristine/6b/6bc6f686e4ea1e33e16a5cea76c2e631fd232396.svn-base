@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20px">
+
+    <com.wawaji.app.ui.widget.CircleImageView
+        android:id="@+id/iv_player_record_img"
+        android:layout_width="120px"
+        android:layout_height="120px"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_head_default" />
+
+    <TextView
+        android:id="@+id/tv_player_record_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_player_record_img"
+        android:layout_marginStart="20px"
+        android:layout_marginTop="20px"
+        android:layout_toEndOf="@+id/iv_player_record_img"
+        android:text="用户名"
+        android:textColor="@color/black"
+        android:textSize="30px" />
+
+    <TextView
+        android:id="@+id/tv_player_record_time"
+        style="@style/Gray_Front10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_player_record_img"
+        android:layout_marginBottom="20px"
+        android:layout_marginStart="20px"
+        android:layout_toEndOf="@+id/iv_player_record_img"
+        android:text="三分钟前" />
+
+    <ImageView
+        android:layout_width="50px"
+        android:layout_height="50px"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_play" />
+
+</RelativeLayout>

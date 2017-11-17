@@ -1,0 +1,155 @@
+package com.wawaji.app.contract;
+
+import android.content.Context;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.wawaji.app.entity.RoomDetailsEntity;
+import com.wawaji.app.interf.OnRequestChangeListener;
+import com.wawaji.common.base.BaseModel;
+import com.wawaji.common.base.BasePresenter;
+import com.wawaji.common.base.BaseView;
+
+/**
+ * 游戏页面MVP架构
+ * <p>
+ * Created by admin on 2017/10/23.
+ */
+
+public interface PlayContract {
+
+    /**
+     * 视图
+     */
+    interface View extends BaseView {
+
+        /**
+         * 设置房间详情
+         *
+         * @param entity 数据
+         */
+        void setRoomDetails(RoomDetailsEntity entity);
+
+        /**
+         * 开始游戏
+         *
+         * @param entity 数据
+         */
+        void startGame(RoomDetailsEntity entity);
+
+        /**
+         * 发送弹幕消息
+         *
+         * @param s 消息
+         */
+        void onBarrage(String s);
+
+        /**
+         * 游戏结束休息一会
+         * @param entity
+         */
+        void PlayGameOver(RoomDetailsEntity entity);
+
+        void PlayRefreshRoom(RoomDetailsEntity entity);
+    }
+
+    /**
+     * 控制器
+     */
+    interface Presenter extends BasePresenter {
+
+        /**
+         * 获取房间详情
+         *
+         * @param roomid 房间id
+         */
+        void getRoomDetails(String roomid);
+
+        /**
+         * 开始游戏
+         *
+         * @param roomid 房间id
+         */
+        void startGame(String roomid);
+
+        /**
+         * 发送弹幕消息
+         *
+         * @param msg    消息
+         * @param roomid 房间id
+         */
+        void Requestbarrage(String msg, String roomid);
+
+        /**
+         * 刷新房间
+         *
+         * @param roomid 房间id
+         */
+        void refreshRoom(String roomid);
+
+        /**
+         * 长连接
+         * @param url 地址
+         */
+        void PlayScoket(String url);
+
+        /**
+         * 传入全局变量context
+         * @param context
+         */
+        void PlayContent(Context context);
+
+        /**
+         * 游戏结束休息一会
+         * @param roomId
+         */
+        void PlayGameOver(String roomId);
+
+    }
+
+    /**
+     * 模型
+     */
+    interface Model extends BaseModel {
+
+        /**
+         * 获取房间详情
+         *
+         * @param roomid   房间id
+         * @param listener 请求回调
+         */
+        void getRoomDetails(String roomid, OnRequestChangeListener<RoomDetailsEntity> listener);
+
+        /**
+         * 开始游戏
+         *
+         * @param roomid   房间id
+         * @param listener 请求回调
+         */
+        void startGame(String roomid, OnRequestChangeListener<RoomDetailsEntity> listener);
+
+        /**
+         * 发送弹幕消息
+         *
+         * @param msg    发送的弹幕消息
+         * @param roomid 房间ID
+         */
+        void onBarrageData(String msg, String roomid, OnRequestChangeListener<String> listener);
+
+        /**
+         * 游戏结束休息一会
+         * @param roomId
+         */
+        void PlayGameOver(String roomId,OnRequestChangeListener<RoomDetailsEntity> listener);
+
+        /**
+         * 刷新房间
+         *
+         * @param roomid   房间id
+         * @param listener 回调
+         */
+        void refreshRoom(String roomid, OnRequestChangeListener<RoomDetailsEntity> listener);
+
+    }
+
+}

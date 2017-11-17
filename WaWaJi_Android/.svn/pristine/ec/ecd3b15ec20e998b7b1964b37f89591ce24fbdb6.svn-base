@@ -1,0 +1,159 @@
+// Generated code from Butter Knife. Do not modify!
+package com.wawaji.app.ui;
+
+import android.support.annotation.CallSuper;
+import android.support.annotation.UiThread;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import butterknife.Unbinder;
+import butterknife.internal.DebouncingOnClickListener;
+import butterknife.internal.Utils;
+import com.wawaji.app.R;
+import com.wawaji.app.ui.widget.ClearEditText;
+import java.lang.IllegalStateException;
+import java.lang.Override;
+
+public class LoginAct_ViewBinding implements Unbinder {
+  private LoginAct target;
+
+  private View view2131427434;
+
+  private View view2131427436;
+
+  private View view2131427439;
+
+  private View view2131427440;
+
+  private View view2131427441;
+
+  private View view2131427442;
+
+  private View view2131427443;
+
+  private View view2131427444;
+
+  @UiThread
+  public LoginAct_ViewBinding(LoginAct target) {
+    this(target, target.getWindow().getDecorView());
+  }
+
+  @UiThread
+  public LoginAct_ViewBinding(final LoginAct target, View source) {
+    this.target = target;
+
+    View view;
+    view = Utils.findRequiredView(source, R.id.tv_login_back, "field 'tvLoginBack' and method 'onViewClicked'");
+    target.tvLoginBack = Utils.castView(view, R.id.tv_login_back, "field 'tvLoginBack'", TextView.class);
+    view2131427434 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    target.tvLoginTitle = Utils.findRequiredViewAsType(source, R.id.tv_login_title, "field 'tvLoginTitle'", TextView.class);
+    view = Utils.findRequiredView(source, R.id.tv_login_register, "field 'tvLoginRegister' and method 'onViewClicked'");
+    target.tvLoginRegister = Utils.castView(view, R.id.tv_login_register, "field 'tvLoginRegister'", TextView.class);
+    view2131427436 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    target.etLoginPhone = Utils.findRequiredViewAsType(source, R.id.et_login_phone, "field 'etLoginPhone'", ClearEditText.class);
+    target.etLoginPassword = Utils.findRequiredViewAsType(source, R.id.et_login_password, "field 'etLoginPassword'", ClearEditText.class);
+    view = Utils.findRequiredView(source, R.id.tv_login_ok, "field 'tvLoginOk' and method 'onViewClicked'");
+    target.tvLoginOk = Utils.castView(view, R.id.tv_login_ok, "field 'tvLoginOk'", TextView.class);
+    view2131427439 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.tv_login_sms, "field 'tvLoginSMS' and method 'onViewClicked'");
+    target.tvLoginSMS = Utils.castView(view, R.id.tv_login_sms, "field 'tvLoginSMS'", TextView.class);
+    view2131427440 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.tv_login_protocol, "field 'tvLoginProtocol' and method 'onViewClicked'");
+    target.tvLoginProtocol = Utils.castView(view, R.id.tv_login_protocol, "field 'tvLoginProtocol'", TextView.class);
+    view2131427441 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.iv_login_wechat, "field 'ivLoginWechat' and method 'onViewClicked'");
+    target.ivLoginWechat = Utils.castView(view, R.id.iv_login_wechat, "field 'ivLoginWechat'", ImageView.class);
+    view2131427442 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.iv_login_qq, "field 'ivLoginQq' and method 'onViewClicked'");
+    target.ivLoginQq = Utils.castView(view, R.id.iv_login_qq, "field 'ivLoginQq'", ImageView.class);
+    view2131427443 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.iv_login_sina, "field 'ivLoginSina' and method 'onViewClicked'");
+    target.ivLoginSina = Utils.castView(view, R.id.iv_login_sina, "field 'ivLoginSina'", ImageView.class);
+    view2131427444 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+  }
+
+  @Override
+  @CallSuper
+  public void unbind() {
+    LoginAct target = this.target;
+    if (target == null) throw new IllegalStateException("Bindings already cleared.");
+    this.target = null;
+
+    target.tvLoginBack = null;
+    target.tvLoginTitle = null;
+    target.tvLoginRegister = null;
+    target.etLoginPhone = null;
+    target.etLoginPassword = null;
+    target.tvLoginOk = null;
+    target.tvLoginSMS = null;
+    target.tvLoginProtocol = null;
+    target.ivLoginWechat = null;
+    target.ivLoginQq = null;
+    target.ivLoginSina = null;
+
+    view2131427434.setOnClickListener(null);
+    view2131427434 = null;
+    view2131427436.setOnClickListener(null);
+    view2131427436 = null;
+    view2131427439.setOnClickListener(null);
+    view2131427439 = null;
+    view2131427440.setOnClickListener(null);
+    view2131427440 = null;
+    view2131427441.setOnClickListener(null);
+    view2131427441 = null;
+    view2131427442.setOnClickListener(null);
+    view2131427442 = null;
+    view2131427443.setOnClickListener(null);
+    view2131427443 = null;
+    view2131427444.setOnClickListener(null);
+    view2131427444 = null;
+  }
+}

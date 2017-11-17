@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="filedownloader-okhttp3-connection-1.0.0">
+    <CLASSES>
+      <root url="file://E:/Android/sdk/.android/build-cache/62eed5ff885aa7ae199cafa2efcd357a39598e0e/output/res" />
+      <root url="jar://E:/Android/sdk/.android/build-cache/62eed5ff885aa7ae199cafa2efcd357a39598e0e/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.dreamtobe.filedownloader/filedownloader-okhttp3-connection/1.0.0/1217cef933c6abf82a83065086248eb615915ef9/filedownloader-okhttp3-connection-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

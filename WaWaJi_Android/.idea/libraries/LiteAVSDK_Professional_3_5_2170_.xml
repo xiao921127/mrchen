@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="LiteAVSDK_Professional_3.5.2170-">
+    <CLASSES>
+      <root url="jar://E:/Android/sdk/.android/build-cache/959b8a0d8d7621f1afaa94d340b352b44fe5c6b3/output/jars/libs/LiteAVSDK_Professional.jar!/" />
+      <root url="jar://E:/Android/sdk/.android/build-cache/959b8a0d8d7621f1afaa94d340b352b44fe5c6b3/output/jars/classes.jar!/" />
+      <root url="file://E:/Android/sdk/.android/build-cache/959b8a0d8d7621f1afaa94d340b352b44fe5c6b3/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

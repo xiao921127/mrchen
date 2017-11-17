@@ -1,0 +1,76 @@
+<resources>
+
+    <!--App-->
+    <string name="app_name">全民抓娃娃</string>
+    <string name="loading">正在加载&#8230;</string>
+
+    <!--Toast提示内容-->
+    <string name="toast_exit">再按一次退出全民抓娃娃!</string>
+
+    <!--登录-->
+    <string name="login">登录</string>
+    <string name="enter_account">请输入邮箱或者手机号</string>
+    <string name="enter_password">请输入密码</string>
+    <string name="message_login">使用短信验证码登录</string>
+    <string name="forget_password">忘记密码?</string>
+    <string name="register_prompt">注册或使用合作网站账号登录即视为您已同意</string>
+    <string name="user_access_protocol">《用户使用协议》</string>
+    <string name="login_other">合作网站账号登录</string>
+    <string name="register">注册</string>
+
+    <!--校验器提示内容-->
+    <string name="enter_content_promt">输入内容不能少于1个字符</string>
+    <string name="please_enter_phone">请输入手机号</string>
+    <string name="please_enter_account">请输入账号</string>
+    <string name="please_enter_code">请输入验证码</string>
+    <string name="please_enter_invite">请输入邀请码(可不填)</string>
+    <string name="input_sms_code">请输入短信中的验证码</string>
+    <string name="please_enter_release_content">请输入发布内容</string>
+
+    <!--标题-->
+    <string name="play_datails">娃娃详情</string>
+    <string name="info_receipt">收货信息</string>
+
+    <!--娃娃详情-->
+    <string name="number">数量</string>
+    <string name="serial_number">游戏编号</string>
+    <string name="current_state">当前状态</string>
+    <string name="exchange_play_currency">可换娃娃币</string>
+    <string name="exchange_explain">●选择兑换娃娃币将失去这个娃娃，得到一定数量的娃娃币</string>
+    <string name="mail_explain">●需要两个娃娃以上同时发货，才能享受包邮</string>
+    <string name="deposit">寄存中</string>
+    <string name="lssue">已发货</string>
+    <string name="receipt">收货</string>
+    <string name="exchange">已兑换</string>
+    <string name="success">抓取娃娃成功</string>
+
+    <!--验证页-->
+    <string name="confirm_register">确认注册</string>
+    <string name="get_verify_code">获取验证码</string>
+    <string name="get_verify_code_again">重新获取验证码</string>
+    <string name="enter_verify_code">填写验证码</string>
+    <string name="confirm_login">确认登录</string>
+
+    <!--设置页-->
+    <string name="notification_center">通知中心</string>
+    <string name="invite_rewards">邀请奖励</string>
+    <string name="input_invite_code">输入邀请码</string>
+    <string name="bgm">背景音乐</string>
+    <string name="sound">音效</string>
+    <string name="feedback">问题反馈</string>
+    <string name="about_us">关于我们</string>
+    <string name="exit_account">退出当前账号</string>
+
+    <!--验证弹框-->
+    <string name="verify_code">验证码</string>
+    <string name="sure">确定</string>
+    <string name="calculation_result">请输入计算结果</string>
+    <string name="resend_verify_code">重新发送</string>
+
+    <!--游戏页面-->
+    <string name="my_coins">我的娃娃币</string>
+    <string name="expense">%1$s/次</string>
+    <string name="send">请输入需要发送的弹幕消息</string>
+
+
+</resources>

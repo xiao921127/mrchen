@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="DanmakuFlameMaster-0.5.3">
+    <CLASSES>
+      <root url="file://E:/Android/sdk/.android/build-cache/267555c90a4bfa78c085fa4f2a9dbff792243194/output/res" />
+      <root url="jar://E:/Android/sdk/.android/build-cache/267555c90a4bfa78c085fa4f2a9dbff792243194/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ctiao/DanmakuFlameMaster/0.5.3/7c770d77742f1a319cef51f60b006f7084cb2228/DanmakuFlameMaster-0.5.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

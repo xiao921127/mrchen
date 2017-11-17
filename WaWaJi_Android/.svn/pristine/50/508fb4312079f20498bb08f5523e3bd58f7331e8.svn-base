@@ -1,0 +1,115 @@
+package com.wawaji.common.utils;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+/**
+ *在此写用途
+ *使用时先调用onPlay(context)初始化
+ * 通过sava方法保存
+ * 通过get方法获取保存数据
+ */
+
+public class SPUtil {
+    public SPUtil() {
+    }
+    private static SharedPreferences preferences;
+    /**存储相关判断逻辑数据*/
+    public static SharedPreferences onPlay(Context context) {
+        if (preferences == null) {
+            preferences = context.getSharedPreferences("name", Activity.MODE_PRIVATE);
+
+        }
+        return preferences;
+    }
+
+    /**
+     * 保存String类型数据
+     */
+    public static void saveString(String key, String value) {
+        preferences.edit().putString(key, value).commit();
+    }
+
+    /**
+     * 保存String类型数据
+     */
+    public static void saveUrl(String key, String value) {
+        preferences.edit().putString(key, value).commit();
+    }
+
+    /**
+     * 得到string类型数据
+     */
+    public static String getString(String key, String value) {
+        return preferences.getString(key, value);
+    }
+
+    /**
+     * 保存boolean类型数据
+     */
+    public static void saveBoolean(String key, boolean value) {
+        preferences.edit().putBoolean(key, value).commit();
+    }
+
+    /**
+     * 得到boolean类型数据
+     */
+    public static boolean getBoolean(String key, boolean value) {
+        return preferences.getBoolean(key, value);
+    }
+
+    /**
+     * 保存int类型数据
+     */
+    public static void saveInt(String key, int value) {
+        preferences.edit().putInt(key, value).commit();
+    }
+
+    /**
+     * 得到int类型数据
+     */
+    public static int getInt(String key, int value) {
+        return preferences.getInt(key, value);
+    }
+
+    /**
+     * 保存float类型数据
+     */
+    public static void saveFloat(String key, float value) {
+        preferences.edit().putFloat(key, value).commit();
+    }
+
+    /**
+     * 得到int类型数据
+     */
+    public static float getFloat(String key, float value) {
+        return preferences.getFloat(key, value);
+    }
+
+    /**
+     * 保存long类型数据
+     */
+    public static void saveLong(String key, long value) {
+        preferences.edit().putLong(key, value).commit();
+    }
+
+    /**
+     * 得到int类型数据
+     */
+    public static long getLong(String key, long value) {
+        return preferences.getLong(key, value);
+    }
+
+    public static void clear() {
+        preferences.edit().clear().commit();
+    }
+
+    public static void remove(String key) {
+        preferences.edit().remove(key).commit();
+    }
+
+    public static void clearData() {
+        preferences.edit().clear().commit();
+    }
+}

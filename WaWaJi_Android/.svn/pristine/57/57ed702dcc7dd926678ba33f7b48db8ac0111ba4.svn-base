@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/gray_bg" >
+
+    <RelativeLayout
+        android:id="@+id/head_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center" >
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:src="@drawable/level_load_loading" />
+
+        <!--<com.facebook.drawee.view.SimpleDraweeView-->
+            <!--android:id="@+id/progerssbar"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:visibility="gone" />-->
+    </RelativeLayout>
+
+</LinearLayout>

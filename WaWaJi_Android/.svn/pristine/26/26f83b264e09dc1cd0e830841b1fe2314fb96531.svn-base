@@ -1,0 +1,142 @@
+// Generated code from Butter Knife. Do not modify!
+package com.wawaji.app.ui;
+
+import android.support.annotation.CallSuper;
+import android.support.annotation.UiThread;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import butterknife.Unbinder;
+import butterknife.internal.DebouncingOnClickListener;
+import butterknife.internal.Utils;
+import com.wawaji.app.R;
+import com.wawaji.app.ui.widget.CircleImageView;
+import com.wawaji.common.gridview.XStaggerView;
+import java.lang.IllegalStateException;
+import java.lang.Override;
+
+public class MyAct_ViewBinding implements Unbinder {
+  private MyAct target;
+
+  private View view2131427445;
+
+  private View view2131427446;
+
+  private View view2131427447;
+
+  private View view2131427448;
+
+  private View view2131427449;
+
+  private View view2131427450;
+
+  private View view2131427451;
+
+  @UiThread
+  public MyAct_ViewBinding(MyAct target) {
+    this(target, target.getWindow().getDecorView());
+  }
+
+  @UiThread
+  public MyAct_ViewBinding(final MyAct target, View source) {
+    this.target = target;
+
+    View view;
+    view = Utils.findRequiredView(source, R.id.iv_my_back, "field 'ivMyBack' and method 'onViewClicked'");
+    target.ivMyBack = Utils.castView(view, R.id.iv_my_back, "field 'ivMyBack'", ImageView.class);
+    view2131427445 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.tv_my_title, "field 'tvMyTitle' and method 'onViewClicked'");
+    target.tvMyTitle = Utils.castView(view, R.id.tv_my_title, "field 'tvMyTitle'", TextView.class);
+    view2131427446 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.iv_my_record, "field 'ivMyRecord' and method 'onViewClicked'");
+    target.ivMyRecord = Utils.castView(view, R.id.iv_my_record, "field 'ivMyRecord'", ImageView.class);
+    view2131427447 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.iv_my_head, "field 'ivMyHead' and method 'onViewClicked'");
+    target.ivMyHead = Utils.castView(view, R.id.iv_my_head, "field 'ivMyHead'", CircleImageView.class);
+    view2131427448 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.tv_my_nickname, "field 'tvMyNickname' and method 'onViewClicked'");
+    target.tvMyNickname = Utils.castView(view, R.id.tv_my_nickname, "field 'tvMyNickname'", TextView.class);
+    view2131427449 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.tv_my_capture, "field 'tvMyCapture' and method 'onViewClicked'");
+    target.tvMyCapture = Utils.castView(view, R.id.tv_my_capture, "field 'tvMyCapture'", TextView.class);
+    view2131427450 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.tv_my_coins, "field 'tvMyCoins' and method 'onViewClicked'");
+    target.tvMyCoins = Utils.castView(view, R.id.tv_my_coins, "field 'tvMyCoins'", TextView.class);
+    view2131427451 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onViewClicked(p0);
+      }
+    });
+    target.gvBaseGridview = Utils.findRequiredViewAsType(source, R.id.gv_base_gridview, "field 'gvBaseGridview'", XStaggerView.class);
+  }
+
+  @Override
+  @CallSuper
+  public void unbind() {
+    MyAct target = this.target;
+    if (target == null) throw new IllegalStateException("Bindings already cleared.");
+    this.target = null;
+
+    target.ivMyBack = null;
+    target.tvMyTitle = null;
+    target.ivMyRecord = null;
+    target.ivMyHead = null;
+    target.tvMyNickname = null;
+    target.tvMyCapture = null;
+    target.tvMyCoins = null;
+    target.gvBaseGridview = null;
+
+    view2131427445.setOnClickListener(null);
+    view2131427445 = null;
+    view2131427446.setOnClickListener(null);
+    view2131427446 = null;
+    view2131427447.setOnClickListener(null);
+    view2131427447 = null;
+    view2131427448.setOnClickListener(null);
+    view2131427448 = null;
+    view2131427449.setOnClickListener(null);
+    view2131427449 = null;
+    view2131427450.setOnClickListener(null);
+    view2131427450 = null;
+    view2131427451.setOnClickListener(null);
+    view2131427451 = null;
+  }
+}

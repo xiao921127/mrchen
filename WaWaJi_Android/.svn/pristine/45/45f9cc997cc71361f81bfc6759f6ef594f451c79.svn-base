@@ -1,0 +1,302 @@
+package com.wawaji.app.ui;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.tencent.rtmp.ITXLivePlayListener;
+import com.tencent.rtmp.ITXLivePushListener;
+import com.tencent.rtmp.TXLiveConstants;
+import com.tencent.rtmp.TXLivePlayConfig;
+import com.tencent.rtmp.TXLivePlayer;
+import com.tencent.rtmp.TXLivePushConfig;
+import com.tencent.rtmp.TXLivePusher;
+import com.tencent.rtmp.ui.TXCloudVideoView;
+import com.wawaji.app.AppApplication;
+import com.wawaji.app.R;
+import com.wawaji.app.contract.PlayContract;
+import com.wawaji.app.entity.PlayerRecordEntity;
+import com.wawaji.app.entity.RoomDetailsEntity;
+import com.wawaji.app.presenter.PlayPresenter;
+import com.wawaji.app.ui.adapter.PlayerRecordAdapter;
+import com.wawaji.common.base.BaseActivity;
+import com.wawaji.common.notification.Notification;
+import com.wawaji.common.utils.LogUtils;
+import com.wawaji.common.xlistview.XListView;
+import com.zhy.autolayout.AutoFrameLayout;
+import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+/**
+ * 游戏页面
+ * <p>
+ * Created by admin on 2017/10/23.
+ */
+
+public class PlayAct extends BaseActivity implements PlayContract.View {
+
+    private static final String LAYOUT_LINEARLAYOUT = "LinearLayout";
+    private static final String LAYOUT_FRAMELAYOUT = "FrameLayout";
+    private static final String LAYOUT_RELATIVELAYOUT = "RelativeLayout";
+
+    @BindView(R.id.iv_actionbar_left)
+    ImageView ivActionbarLeft;//返回按钮
+
+    @BindView(R.id.iv_actionbar_right)
+    ImageView ivActionbarRight;//游戏记录
+
+    @BindView(R.id.vv_play_play)
+    TXCloudVideoView vvPlayPlay;// 游戏画面
+
+    @BindView(R.id.vv_play_camera)
+    TXCloudVideoView vvPlayCamera;//玩家摄像头
+
+    @BindView(R.id.iv_play_msg)
+    ImageView ivPlayMsg;//发送消息
+
+    @BindView(R.id.iv_play_start)
+    ImageView ivPlayStart;//开始游戏
+
+    @BindView(R.id.tv_play_coins)
+    TextView tvPlayCoins;//我的金币
+
+    @BindView(R.id.rl_play_bottom)
+    RelativeLayout rlPlayBottom;
+
+    @BindView(R.id.lv_play_record)
+    XListView lvPlayRecord;//最近抓中记录
+
+    private ArrayList<PlayerRecordEntity> mRecordList = new ArrayList<>();
+
+    private PlayerRecordAdapter mRecordAdapter;
+
+    private PlayPresenter mPresenter = new PlayPresenter(this);
+
+    private TXLivePushConfig mLivePushConfig;//推流参数
+
+    private TXLivePusher mLivePusher;//推流器
+
+    private TXLivePlayer mLivePlayer;//播放器
+
+    private String roomid;//房间id
+
+    @Override
+    public View onCreateView(String name, Context context, AttributeSet attrs) {
+        View view = null;
+        if (name.equals(LAYOUT_FRAMELAYOUT)) {
+            view = new AutoFrameLayout(context, attrs);
+        }
+
+        if (name.equals(LAYOUT_LINEARLAYOUT)) {
+            view = new AutoLinearLayout(context, attrs);
+        }
+
+        if (name.equals(LAYOUT_RELATIVELAYOUT)) {
+            view = new AutoRelativeLayout(context, attrs);
+        }
+
+        if (view != null) return view;
+
+        return super.onCreateView(name, context, attrs);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mLivePlayer.stopPlay(true); // true代表清除最后一帧画面
+        vvPlayPlay.onDestroy();
+    }
+
+    @Override
+    protected void initView() {
+        setContentView(R.layout.activity_play);
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void setView() {
+        setActivityName(PlayAct.class.getSimpleName());
+        ivActionbarLeft.setImageResource(R.drawable.ic_back);
+        ivActionbarRight.setImageResource(R.drawable.ic_record);
+
+        //创建推流器对象
+        mLivePusher = new TXLivePusher(this);
+        mLivePushConfig = new TXLivePushConfig();
+        mLivePusher.setConfig(mLivePushConfig);
+
+        ViewGroup.LayoutParams layoutParams = vvPlayPlay.getLayoutParams();
+        //设置游戏画面高度
+        layoutParams.height = (int) (AppApplication.getDisplayHeight() * 0.65);
+        vvPlayPlay.setLayoutParams(layoutParams);
+        //创建播放器对象
+        mLivePlayer = new TXLivePlayer(this);
+        //设置player播放界面view
+        mLivePlayer.setPlayerView(vvPlayPlay);
+        //设置铺满or适应
+        //RENDER_MODE_FILL_SCREEN	将图像等比例铺满整个屏幕，多余部分裁剪掉，此模式下画面不会留黑边，但可能因为部分区域被裁剪而显示不全。
+        // RENDER_MODE_ADJUST_RESOLUTION	将图像等比例缩放，适配最长边，缩放后的宽和高都不会超过显示区域，居中显示，画面可能会留有黑边。
+        mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
+        //播放器参数
+        TXLivePlayConfig mPlayConfig = new TXLivePlayConfig();
+//        //自动模式
+//        mPlayConfig.setAutoAdjustCacheTime(true);
+//        mPlayConfig.setMinAutoAdjustCacheTime(1);
+//        mPlayConfig.setMaxAutoAdjustCacheTime(5);
+
+        //极速模式
+        mPlayConfig.setAutoAdjustCacheTime(true);
+        mPlayConfig.setMinAutoAdjustCacheTime(1);
+        mPlayConfig.setMaxAutoAdjustCacheTime(1);
+//
+//        //流畅模式
+//        mPlayConfig.setAutoAdjustCacheTime(false);
+//        mPlayConfig.setCacheTime(5);
+        //设置播放器参数
+        mLivePlayer.setConfig(mPlayConfig);
+
+        //PLAY_TYPE_LIVE_RTMP	     传入的URL为RTMP直播地址
+        //PLAY_TYPE_LIVE_FLV	     传入的URL为FLV直播地址
+        //PLAY_TYPE_LIVE_RTMP_ACC    低延迟链路地址（仅适合于连麦场景）
+        //PLAY_TYPE_VOD_HLS	3	     传入的URL为HLS(m3u8)播放地址
+//        mLivePlayer.startPlay(flvUrl, PLAY_TYPE_LIVE_FLV); //推荐FLV
+        mLivePlayer.startPlay("rtmp://live.hkstv.hk.lxdns.com/live/hks", TXLivePlayer.PLAY_TYPE_LIVE_RTMP); //推荐FLV
+
+        mRecordAdapter = new PlayerRecordAdapter(this, mRecordList);
+        lvPlayRecord.setAdapter(mRecordAdapter);
+        lvPlayRecord.setMode(XListView.Mode.DISABLED);
+
+        Bundle bundle = getIntent().getExtras();
+        if (null != bundle && bundle.containsKey("roomid")) {
+            roomid = bundle.getString("roomid");
+            mPresenter.getRoomDetails(roomid);
+        }
+
+    }
+
+    @Override
+    protected void setListener() {
+        //设置推流器监听
+        mLivePusher.setPushListener(mPushListener);
+        //设置播放器监听
+        mLivePlayer.setPlayListener(mPlayListener);
+    }
+
+    @OnClick({R.id.iv_actionbar_left, R.id.iv_actionbar_right, R.id.iv_play_msg, R.id.iv_play_start})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_actionbar_left:
+                finish();
+                break;
+            case R.id.iv_actionbar_right:
+                break;
+            case R.id.iv_play_msg:
+                break;
+            case R.id.iv_play_start:
+                //启动推流
+                mPresenter.startGame(roomid);
+                break;
+        }
+    }
+
+    /**
+     * 推流器事件监听
+     */
+    private ITXLivePushListener mPushListener = new ITXLivePushListener() {
+        @Override
+        public void onPushEvent(int event, Bundle bundle) {
+            String msg = bundle.getString(TXLiveConstants.EVT_DESCRIPTION);
+            LogUtils.e("onPushEvent ：" + event + " msg ：" + msg);
+            if (event < 0) {
+                Notification.showToastMsg(msg);
+//                if(event == TXLiveConstants.PUSH_ERR_OPEN_CAMERA_FAIL || event == TXLiveConstants.PUSH_ERR_OPEN_MIC_FAIL){
+////                    stopPublishRtmp();
+//                }
+            }
+        }
+
+        @Override
+        public void onNetStatus(Bundle bundle) {
+            LogUtils.e("Push status, CPU使用:" + bundle.getString(TXLiveConstants.NET_STATUS_CPU_USAGE)
+                    + ", 分辨率:" + bundle.getInt(TXLiveConstants.NET_STATUS_VIDEO_WIDTH)
+                    + "*" + bundle.getInt(TXLiveConstants.NET_STATUS_VIDEO_HEIGHT)
+                    + ", 速度:" + bundle.getInt(TXLiveConstants.NET_STATUS_NET_SPEED) + "Kbps"
+                    + "，抖动:" + bundle.getInt(TXLiveConstants.NET_STATUS_NET_JITTER)
+                    + ", 帧率:" + bundle.getInt(TXLiveConstants.NET_STATUS_VIDEO_FPS)
+                    + ", 音频:" + bundle.getInt(TXLiveConstants.NET_STATUS_AUDIO_BITRATE) + "Kbps"
+                    + ", 视频:" + bundle.getInt(TXLiveConstants.NET_STATUS_VIDEO_BITRATE) + "Kbps"
+                    + "，缓冲:" + bundle.getInt(TXLiveConstants.NET_STATUS_CACHE_SIZE
+                    + ",服务器IP:" + bundle.getString(TXLiveConstants.NET_STATUS_SERVER_IP)));
+        }
+    };
+
+    /**
+     * 播放器监听事件
+     */
+    private ITXLivePlayListener mPlayListener = new ITXLivePlayListener() {
+        @Override
+        public void onPlayEvent(int event, Bundle bundle) {
+            String msg = bundle.getString(TXLiveConstants.EVT_DESCRIPTION);
+            LogUtils.e("onPlayEvent ：" + event + " msg ：" + msg);
+            if (event < 0) {
+                Notification.showToastMsg(msg);
+            }
+        }
+
+        @Override
+        public void onNetStatus(Bundle bundle) {
+            LogUtils.e("Play status, CPU使用:" + bundle.getString(TXLiveConstants.NET_STATUS_CPU_USAGE)
+                    + ", 分辨率:" + bundle.getInt(TXLiveConstants.NET_STATUS_VIDEO_WIDTH)
+                    + "*" + bundle.getInt(TXLiveConstants.NET_STATUS_VIDEO_HEIGHT)
+                    + ", 速度:" + bundle.getInt(TXLiveConstants.NET_STATUS_NET_SPEED) + "Kbps"
+                    + "，抖动:" + bundle.getInt(TXLiveConstants.NET_STATUS_NET_JITTER)
+                    + ", 帧率:" + bundle.getInt(TXLiveConstants.NET_STATUS_VIDEO_FPS)
+                    + ", 音频:" + bundle.getInt(TXLiveConstants.NET_STATUS_AUDIO_BITRATE) + "Kbps"
+                    + ", 视频:" + bundle.getInt(TXLiveConstants.NET_STATUS_VIDEO_BITRATE) + "Kbps"
+                    + "，缓冲:" + bundle.getInt(TXLiveConstants.NET_STATUS_CACHE_SIZE
+                    + ",服务器IP:" + bundle.getString(TXLiveConstants.NET_STATUS_SERVER_IP)));
+        }
+    };
+
+    /**
+     * 结束推流，注意做好清理工作
+     */
+    public void stopRtmpPublish() {
+        mLivePusher.stopCameraPreview(true); //停止摄像头预览
+        mLivePusher.stopPusher();            //停止推流
+        mLivePusher.setPushListener(null);   //解绑 listener
+    }
+
+    @Override
+    public void startAct(Class<?> cls, Bundle bundle) {
+        startIntent(cls, bundle);
+    }
+
+    @Override
+    public void setRoomDetails(RoomDetailsEntity entity) {
+        mRecordList.clear();
+        mRecordList.addAll(entity.records);
+        mRecordAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void startGame(RoomDetailsEntity entity) {
+        String rtmpUrl = entity.camera_url;
+        if (!TextUtils.isEmpty(rtmpUrl)) {
+            mLivePusher.startPusher(rtmpUrl);
+            mLivePusher.startCameraPreview(vvPlayCamera);
+        }
+    }
+
+}

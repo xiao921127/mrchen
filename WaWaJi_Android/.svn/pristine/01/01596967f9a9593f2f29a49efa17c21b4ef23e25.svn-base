@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "com.quanminzhuawawa.app"
+        minSdkVersion 17
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    // 导入腾讯云直播SDK aar
+    compile(name: 'LiteAVSDK_Professional_3.5.2170', ext: 'aar')
+    //弹幕
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.jakewharton.timber:timber:4.5.1'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'org.apache.httpcomponents:httpcore:4.4.8'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'cn.dreamtobe.filedownloader:filedownloader-okhttp3-connection:1.0.0'
+    compile 'com.zhy:autolayout:1.4.5'
+    compile 'com.github.ctiao:DanmakuFlameMaster:0.5.3'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+}

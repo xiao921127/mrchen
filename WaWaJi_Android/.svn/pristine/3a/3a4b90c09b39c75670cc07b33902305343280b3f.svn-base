@@ -1,0 +1,54 @@
+package com.wawaji.app.presenter;
+
+import com.wawaji.app.contract.LoginContract;
+import com.wawaji.app.entity.UserEntity;
+import com.wawaji.app.interf.OnRequestChangeListener;
+import com.wawaji.app.model.LoginModel;
+
+/**
+ * 登录控制器
+ * <p>
+ * Created by admin on 2017/11/8.
+ */
+
+public class LoginPresenter implements LoginContract.Presenter {
+
+    private LoginContract.View mView;
+
+    private LoginModel mModel;
+
+    public LoginPresenter(LoginContract.View view) {
+        mView = view;
+        mModel = new LoginModel();
+    }
+
+    @Override
+    public void onClick(int type) {
+
+    }
+
+    @Override
+    public void loginPhonePwd(String phone, String pwd) {
+        mModel.loginPhonePwd(phone, pwd, listener);
+    }
+
+    /**
+     * 登录回调
+     */
+    private OnRequestChangeListener<UserEntity> listener = new OnRequestChangeListener<UserEntity>() {
+        @Override
+        public void onSuccess(UserEntity userEntity) {
+
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+}

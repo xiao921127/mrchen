@@ -1,0 +1,412 @@
+package com.wawaji.common.base;
+
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.wawaji.app.ActivityTaskManager;
+import com.wawaji.app.ui.HomeAct;
+import com.wawaji.common.base.dialog.LoadingDialog;
+
+
+/**
+ * 基础Activity
+ *
+ * @author admin
+ * @version <2.0>
+ * @since 2016/6/8
+ */
+@SuppressWarnings({"SameParameterValue", "WeakerAccess"})
+public abstract class BaseActivity extends FragmentActivity {
+
+    // 判断当前activity是否显示
+    protected boolean mIs_activity = true;
+    // 设置是否显示主题颜色
+    private boolean mIs_theme = true;
+
+    private String mClassName;
+    protected ActivityTaskManager mManager;
+
+    protected Handler mHandler;
+
+//    private boolean isActive = true; //是否正在前台
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        if (!TextUtils.isEmpty(mClassName)) {
+//            MobclickAgent.onPageStart(mClassName);
+//        }
+//        MobclickAgent.onResume(this);//统计时长
+
+        if (null == mHandler) {
+            mHandler = new Handler(Looper.getMainLooper());
+        }
+
+        mIs_activity = true;
+//        AppApplication.getInstance().appAppear();
+//
+//        WebObservable.getObservable().registerObserver(mOnWDChange);
+//        WebObservable.getObservable().notifyChanged();
+//
+//        if (isShowTips && CommonUtils.isTaoKeyAvailable(CommonUtils.getClipboardText())) {
+//            showSearchTips();
+////            isActive = true;
+//        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (null == mManager) {
+            mManager = ActivityTaskManager.getInstance();
+        }
+        initView();
+        setView();
+//        initWindow();
+        setListener();
+        addActivity();
+    }
+
+//    /**
+//     * 初始化任务栏
+//     */
+//    @SuppressWarnings("unused")
+//    private void initWindow() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && mIs_theme) {
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+//            // 激活状态栏
+//            tintManager.setStatusBarTintEnabled(true);
+//            // 激活导航栏
+////            tintManager.setNavigationBarTintEnabled(true);
+//            // 设置状态栏背景
+//            // noinspection deprecation
+//            tintManager.setTintColor(getResources().getColor(R.color.orange_light));
+////            tintManager.setTintColor(Color.parseColor("#FF4F1D"));
+//            // 设置背景给导航栏
+////            tintManager.setNavigationBarTintResource(R.drawable.shape_button_login_pressed);
+//            // 设置状态栏资源
+////            tintManager.setStatusBarTintDrawable(getDrawable(R.drawable.shape_button_login_pressed));
+//        }
+//    }
+    /**
+     * 沉侵状态栏
+     */
+    public void setImmersionStatus(View view,int id) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){//4.4 全透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0 全透明实现
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);//calculateStatusColor(Color.WHITE, (int) alphaValue)
+        }
+        // 生成一个状态栏大小的矩形
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        // 绘制一个和状态栏一样高的矩形
+//        View statusView = new View(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,statusBarHeight);
+        view.setLayoutParams(params);
+        view.setBackgroundColor(Color.TRANSPARENT);
+        // 添加 statusView 到布局中
+        ViewGroup  rootView = (ViewGroup ) ((ViewGroup ) findViewById(id));
+        rootView.addView(view, 0);// addView(ViewGroup view, index);
+        rootView.setFitsSystemWindows(true);
+        rootView.setClipToPadding(true);
+    }
+
+    /**
+     * 添加Activity到Activity管理类
+     */
+    private void addActivity() {
+        if (TextUtils.isEmpty(mClassName) || (mManager.containsName(mClassName) &&
+                HomeAct.class.getSimpleName().equalsIgnoreCase(mClassName))) {
+            return;
+        }
+        if (mManager.containsName(mClassName)) {
+            mClassName = mClassName + System.currentTimeMillis();
+        }
+        mManager.putActivity(mClassName, BaseActivity.this);
+    }
+
+    /**
+     * 设置Activity名字
+     *
+     * @param name 名称
+     */
+    protected void setActivityName(String name) {
+        this.mClassName = name;
+    }
+
+    /**
+     * 设置是否显示主题颜色
+     *
+     * @param is_theme 是否显示主题色
+     */
+    protected void setIs_theme(boolean is_theme) {
+        mIs_theme = is_theme;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mIs_activity = false;
+//        if (!TextUtils.isEmpty(mClassName)) {
+//            MobclickAgent.onPageEnd(mClassName);
+//        }
+//        MobclickAgent.onPause(this);//统计时长结束
+//        //移除弹框
+//        WebObservable.getObservable().unregisterObserver(mOnWDChange);
+//        AppApplication.getInstance().appDisappear();
+        if (null != mHandler) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+        }
+//        if (!CommonUtils.isRunningForeground(this)) {
+//            isActive = false;
+//        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        closeDlg();
+        if (null != mManager && !TextUtils.isEmpty(mClassName)) {
+            mManager.removeActivity(mClassName);
+        }
+    }
+
+    protected abstract void initView();
+
+    protected abstract void setView();
+
+    protected abstract void setListener();
+
+    /**
+     * 跳转页面
+     *
+     * @param cla 类名
+     */
+    protected void startIntent(Class<?> cla) {
+        Intent intent = new Intent(this, cla);
+        startActivity(intent);
+    }
+
+    /**
+     * 跳转页面
+     *
+     * @param cla 类名
+     */
+    protected void startIntent(Class<?> cla, Bundle bundle) {
+        Intent intent = new Intent(this, cla);
+        if (null != bundle) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+    }
+
+    /**
+     * 显示TextView
+     *
+     * @param textView 控件名
+     * @param text     文字
+     * @param needGone 是否隐藏
+     */
+    protected void setText(TextView textView, String text, boolean needGone) {
+        if (null == textView) {
+            return;
+        }
+        if (TextUtils.isEmpty(text)) {
+            if (needGone) {
+                textView.setVisibility(View.GONE);
+            }
+        } else {
+            textView.setText(text);
+        }
+    }
+
+    /**
+     * 显示TextView
+     *
+     * @param textView 控件名
+     * @param text     文字
+     * @param needGone 是否隐藏
+     */
+    protected void setText(TextView textView, int text, boolean needGone) {
+        if (null == textView) {
+            return;
+        }
+        String str = String.valueOf(text);
+        if (TextUtils.isEmpty(str)) {
+            if (needGone) {
+                textView.setVisibility(View.GONE);
+            }
+        } else {
+            textView.setText(str);
+        }
+    }
+
+    /**
+     * 显示TextView
+     *
+     * @param textView 控件名
+     * @param text     文字
+     */
+    protected void setText(TextView textView, String text) {
+        setText(textView, text, false);
+    }
+
+    /**
+     * 显示TextView
+     *
+     * @param textView 控件名
+     * @param text     文字
+     */
+    protected void setText(TextView textView, int text) {
+        setText(textView, text, false);
+    }
+
+    private LoadingDialog mLoadDialog; // 加载中弹框
+
+    /**
+     * 关闭弹窗
+     */
+    public void closeDlg() {
+        if (mLoadDialog != null && !isFinishing()
+                && mLoadDialog.isShowing()) {
+            mLoadDialog.dismissDialog();
+        }
+    }
+
+    /**
+     * 生成弹窗
+     */
+    public void createDlg() {
+        if (this.isFinishing()) {
+            return;
+        }
+        if (mLoadDialog == null) {
+            mLoadDialog = new LoadingDialog(this);
+        }
+        if (!mLoadDialog.isShowing()) {
+            mLoadDialog.showDialog();
+        }
+}
+//
+//    /**
+//     * 网页弹框改变监听
+//     */
+//    private AppObservable.onWDChangeListener mOnWDChange = new AppObservable.onWDChangeListener() {
+//
+//        @Override
+//        public void onChanged(final String html5) {
+//            if (null == mHandler) {
+//                return;
+//            }
+//            mHandler.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    createWeb(html5);
+//                }
+//            });
+//        }
+//    };
+//
+//
+//    private WebAlertDialog mDialog_web; // 网页弹框
+//
+//    /**
+//     * 打开网页弹框
+//     *
+//     * @param html5 网页
+//     */
+//    public void createWeb(String html5) {
+//        closeWeb();
+//        if (this.isFinishing()) {
+//            return;
+//        }
+//        if (null == mDialog_web) {
+//            mDialog_web = new WebAlertDialog(BaseActivity.this);
+//            mDialog_web.setCancelable(true);
+//        } else {
+//            if (mDialog_web.isShowing()) return;
+//        }
+//        WebObservable.getObservable().setHtml5(null);
+//        mDialog_web.setLoadData(html5);
+//        if (!mDialog_web.isShowing()) {
+//            mDialog_web.show();
+//        }
+//    }
+//
+//    /**
+//     * 关闭网页弹框
+//     */
+//    public void closeWeb() {
+//        if (mDialog_web != null && !this.isFinishing() && mDialog_web.isShowing()) {
+//            mDialog_web.dismiss();
+//        }
+//        mDialog_web = null;
+//    }
+//
+//    public boolean getWebDialogIsShow() {
+//        return null != mDialog_web && mDialog_web.isShowing();
+//    }
+//
+//    private String mSearchText = "";
+//
+//    private SearchTipsDialog mDialog_tips;// 搜索提示弹框
+//
+//    public boolean isShowTips = false;// 默认弹出
+//
+//    /**
+//     * 显示搜索提示弹框
+//     */
+//    private void showSearchTips() {
+//        String text = CommonUtils.getClipboardText();
+//        if (!TextUtils.isEmpty(text)) {
+//            mSearchText = text;
+//            if (null == mDialog_tips) {
+//                mDialog_tips = new SearchTipsDialog(this);
+//                mDialog_tips.setOnButtonClickChangeListenr(listener);
+//            }
+//            mDialog_tips.showDialog();
+//            mDialog_tips.setText(mSearchText);
+//        }
+//    }
+//
+//    private BaseDialog.OnButtonClickChangeListener listener = new BaseDialog.OnButtonClickChangeListener() {
+//        @Override
+//        public void onClickCancel() {
+//            CommonUtils.setClipboardText("");
+//        }
+//
+//        @Override
+//        public void onClickSure() {
+//            Bundle bundle = new Bundle();
+//            bundle.putString("taokey", mSearchText);
+//            startIntent(SearchAct.class, bundle);
+//        }
+//
+//        @Override
+//        public void onClickCopy() {
+//
+//        }
+//    };
+}

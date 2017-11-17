@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--&lt;!&ndash; TabStrip属性 &ndash;&gt;-->
+    <!--<declare-styleable name="PagerSlidingTabStrip">-->
+        <!--<attr name="pstsIndicatorColor" format="color" />-->
+        <!--<attr name="pstsUnderlineColor" format="color" />-->
+        <!--<attr name="pstsDividerColor" format="color" />-->
+        <!--<attr name="pstsIndicatorHeight" format="dimension" />-->
+        <!--<attr name="pstsUnderlineHeight" format="dimension" />-->
+        <!--<attr name="pstsDividerPadding" format="dimension" />-->
+        <!--<attr name="pstsTabPaddingLeftRight" format="dimension" />-->
+        <!--<attr name="pstsScrollOffset" format="dimension" />-->
+        <!--<attr name="pstsTabBackground" format="reference" />-->
+        <!--<attr name="pstsShouldExpand" format="boolean" />-->
+        <!--<attr name="pstsTextAllCaps" format="boolean" />-->
+    <!--</declare-styleable>-->
+
+    <!--<declare-styleable name="SwipeBackLayout">-->
+        <!--<attr name="edge_size" format="dimension" />-->
+        <!--<attr name="edge_flag">-->
+            <!--<enum name="left" value="0" />-->
+            <!--<enum name="right" value="1" />-->
+            <!--<enum name="bottom" value="2" />-->
+            <!--<enum name="all" value="3" />-->
+        <!--</attr>-->
+        <!--<attr name="shadow_left" format="reference" />-->
+        <!--<attr name="shadow_right" format="reference" />-->
+        <!--<attr name="shadow_bottom" format="reference" />-->
+    <!--</declare-styleable>-->
+
+    <!--<attr name="SwipeBackLayoutStyle" format="reference" />-->
+    <!--<declare-styleable name="call_control">-->
+        <!--<attr name="call_direct">-->
+            <!--<enum name="incoming" value="0" />-->
+            <!--<enum name="outgoing" value="1" />-->
+            <!--<enum name="inCall" value="2" />-->
+        <!--</attr>-->
+    <!--</declare-styleable>-->
+    <!--<declare-styleable name="SpinnerView">-->
+        <!--<attr name="Spinner_item" format="reference" />-->
+        <!--<attr name="Spinner_DropDownTitle" format="reference" />-->
+    <!--</declare-styleable>-->
+
+    <declare-styleable name="StaggeredGridView">
+        <attr name="column_count" format="integer" />
+        <attr name="column_count_portrait" format="integer" />
+        <attr name="column_count_landscape" format="integer" />
+        <attr name="item_margin" format="dimension" />
+        <attr name="grid_paddingLeft" format="dimension" />
+        <attr name="grid_paddingRight" format="dimension" />
+        <attr name="grid_paddingTop" format="dimension" />
+        <attr name="grid_paddingBottom" format="dimension" />
+        <attr name="drawSelectorOnTop1" format="boolean" />
+        <attr name="numColumns" format="integer" />
+    </declare-styleable>
+
+    <!-- CircleImageView属性 -->
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
+    <!--自定义头像显示控件-->
+    <!--<declare-styleable name="MaskLayout">-->
+        <!--<attr name="foreground" format="reference" />-->
+        <!--<attr name="content_margin" format="dimension" />-->
+        <!--<attr name="content_marginLeft" format="dimension" />-->
+        <!--<attr name="content_marginRight" format="dimension" />-->
+        <!--<attr name="content_marginTop" format="dimension" />-->
+        <!--<attr name="content_marginBottom" format="dimension" />-->
+    <!--</declare-styleable>-->
+
+</resources>

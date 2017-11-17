@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="140px"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_missed" />
+
+        <TextView
+            style="@style/Gray_Front14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15px"
+            android:text="恭喜！您抓到娃娃一只"
+            android:textSize="28px"
+            android:textColor="@color/gray_text"/>
+
+        <ImageView
+            android:id="@+id/continue_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="80px"
+            android:layout_marginTop="50px"
+            android:src="@drawable/ic_try_again" />
+
+        <ImageView
+            android:id="@+id/rest_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="80px"
+            android:layout_marginTop="35px"
+            android:src="@drawable/ic_take_a_rest" />
+
+        <TextView
+            android:layout_marginTop="20px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="倒计时6秒"
+            android:textSize="28px"
+            android:textColor="@color/gray_text"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

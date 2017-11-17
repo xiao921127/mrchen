@@ -1,0 +1,55 @@
+package com.wawaji.app.contract;
+
+import com.wawaji.app.entity.UserEntity;
+import com.wawaji.app.interf.OnRequestChangeListener;
+import com.wawaji.common.base.BaseModel;
+import com.wawaji.common.base.BasePresenter;
+
+/**
+ * 登录MVP架构
+ * <p>
+ * Created by admin on 2017/11/8.
+ */
+
+public interface LoginContract {
+
+    /**
+     * 视图
+     */
+    interface View {
+
+    }
+
+    /**
+     * 控制器
+     */
+    interface Presenter extends BasePresenter {
+
+        /**
+         * 手机号码密码登录
+         *
+         * @param phone 手机号
+         * @param pwd   密码
+         */
+        void loginPhonePwd(String phone, String pwd);
+
+
+    }
+
+    /**
+     * 模型
+     */
+    interface Model extends BaseModel {
+
+        /**
+         * 手机号密码登录
+         *
+         * @param phone    手机号
+         * @param pwd      密码
+         * @param listener 回调
+         */
+        void loginPhonePwd(String phone, String pwd, OnRequestChangeListener<UserEntity> listener);
+
+    }
+
+}

@@ -1,0 +1,108 @@
+package com.wawaji.app.ui;
+
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.wawaji.app.R;
+import com.wawaji.app.contract.MyContract;
+import com.wawaji.app.entity.DollsEntity;
+import com.wawaji.app.ui.adapter.DollsAdapter;
+import com.wawaji.app.ui.widget.CircleImageView;
+import com.wawaji.common.base.BaseActivity;
+import com.wawaji.common.gridview.XStaggerView;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+/**
+ * 我的页面
+ * <p>
+ * Created by admin on 2017/10/25.
+ */
+
+public class MyAct extends BaseActivity implements MyContract.View,AdapterView.OnItemClickListener {
+
+    @BindView(R.id.iv_my_back)
+    ImageView ivMyBack;//返回
+
+    @BindView(R.id.tv_my_title)
+    TextView tvMyTitle;//
+
+    @BindView(R.id.iv_my_record)
+    ImageView ivMyRecord;//
+
+    @BindView(R.id.iv_my_head)
+    CircleImageView ivMyHead;//头像
+
+    @BindView(R.id.tv_my_nickname)
+    TextView tvMyNickname;
+
+    @BindView(R.id.tv_my_capture)
+    TextView tvMyCapture;
+
+    @BindView(R.id.tv_my_coins)
+    TextView tvMyCoins;
+
+    @BindView(R.id.gv_base_gridview)
+    XStaggerView gvBaseGridview;
+
+    private ArrayList<DollsEntity> list = new ArrayList<>();
+
+    private DollsAdapter mDollsAdapter;
+
+    @Override
+    protected void initView() {
+        setContentView(R.layout.activity_my);
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void setView() {
+        setActivityName(MyAct.class.getSimpleName());
+
+//        list.add("a");
+//        list.add("b");
+//        list.add("c");
+//        list.add("d");
+        mDollsAdapter = new DollsAdapter(this, list);
+        gvBaseGridview.setAdapter(mDollsAdapter);
+        gvBaseGridview.setMode(XStaggerView.Mode.DISABLED);
+    }
+
+    @Override
+    protected void setListener() {
+        gvBaseGridview.setOnItemClickListener(this);
+    }
+
+    @OnClick({R.id.iv_my_back, R.id.tv_my_title, R.id.iv_my_record, R.id.iv_my_head, R.id.tv_my_nickname
+            , R.id.tv_my_capture, R.id.tv_my_coins})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_my_back:
+                finish();
+                break;
+            case R.id.tv_my_title:
+                break;
+            case R.id.iv_my_record:
+                break;
+            case R.id.iv_my_head:
+                break;
+            case R.id.tv_my_nickname:
+                break;
+            case R.id.tv_my_capture:
+                break;
+            case R.id.tv_my_coins:
+                break;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+}

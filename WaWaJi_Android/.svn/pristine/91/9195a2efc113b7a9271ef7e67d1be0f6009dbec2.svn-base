@@ -1,0 +1,148 @@
+apply plugin: 'com.android.application'
+
+static def appName() {
+    return "quanminzhuawawa"
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "com.quanminzhuawawa.app"
+        minSdkVersion 17
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a"
+        }
+    }
+
+    productFlavors {
+        //noinspection GroovyMissingReturnStatement
+        wawaji {}
+        //noinspection GroovyMissingReturnStatement
+        android {}
+        //noinspection GroovyMissingReturnStatement
+        yinyongbao {}
+        //noinspection GroovyMissingReturnStatement
+        meizhu {}
+        //noinspection GroovyMissingReturnStatement
+        ppzhushou {}
+        //noinspection GroovyMissingReturnStatement
+        oppo {}
+        //noinspection GroovyMissingReturnStatement
+        wandoujia {}
+        //noinspection GroovyMissingReturnStatement
+        huawei {}
+        //noinspection GroovyMissingReturnStatement
+        xiaomi {}
+        //noinspection GroovyMissingReturnStatement
+        baidushoujizhushou {}
+        //noinspection GroovyMissingReturnStatement
+        x360 {}
+        //noinspection GroovyMissingReturnStatement
+        lianxiang {}
+        //noinspection GroovyMissingReturnStatement
+        vivo {}
+        //noinspection GroovyMissingReturnStatement
+        jinli {}
+        //noinspection GroovyMissingReturnStatement
+        fensitong {}
+        //noinspection GroovyMissingReturnStatement
+        youyi {}
+        //noinspection GroovyMissingReturnStatement
+        jifeng {}
+        //noinspection GroovyMissingReturnStatement
+        sougou {}
+        //noinspection GroovyMissingReturnStatement
+        souhu_1 {}
+        //noinspection GroovyMissingReturnStatement
+        chuizi {}
+        //noinspection GroovyMissingReturnStatement
+        aidou {}
+        //noinspection GroovyMissingReturnStatement
+        duanxin {}
+        //noinspection GroovyMissingReturnStatement
+        web {}
+        //noinspection GroovyMissingReturnStatement
+        oppo_1 {}
+        //noinspection GroovyMissingReturnStatement
+        xiaomi_1 {}
+        //noinspection GroovyMissingReturnStatement
+        tuia_1 {}
+        //noinspection GroovyMissingReturnStatement
+        fenghuang_1 {}
+        //noinspection GroovyMissingReturnStatement
+        toutiao_1 {}
+        //noinspection GroovyMissingReturnStatement
+        leshi {}
+        //noinspection GroovyMissingReturnStatement
+        xiaomi_2 {}
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+    signingConfigs {
+        release {
+//            storeFile file("d:/project/kelezhuan_android/kelefanli.jks")
+            storeFile file("D:\\quanminzhuawawa.jks")
+            storePassword "kelefanli"
+            keyAlias "kelefanli"
+            keyPassword "kelefanli"
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            // 去掉无用资源
+//            minifyEnabled true
+//            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles 'proguard-rules.pro'
+
+            // 在生成的apk文件，修改下命名而已
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('release.apk')) {
+                        def productFlavorsName = variant.productFlavors[0].name;
+                        def fileName = "${appName()}" + "_" + productFlavorsName + ".apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    // 导入腾讯云直播SDK aar
+    compile(name: 'LiteAVSDK_Professional_3.5.2170', ext: 'aar')
+    //弹幕
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.jakewharton.timber:timber:4.5.1'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'org.apache.httpcomponents:httpcore:4.4.8'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'cn.dreamtobe.filedownloader:filedownloader-okhttp3-connection:1.0.0'
+    compile 'com.zhy:autolayout:1.4.5'
+    compile 'com.github.ctiao:DanmakuFlameMaster:0.5.3'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+}

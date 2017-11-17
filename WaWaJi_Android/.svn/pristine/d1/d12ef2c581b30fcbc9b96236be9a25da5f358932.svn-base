@@ -1,0 +1,136 @@
+package com.wawaji.app.presenter;
+
+import com.wawaji.app.contract.PlayContract;
+import com.wawaji.app.entity.RoomDetailsEntity;
+import com.wawaji.app.interf.OnRequestChangeListener;
+import com.wawaji.app.model.PlayModel;
+import com.wawaji.common.websocket.WebSocketListener;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
+/**
+ * 游戏页面控制器
+ * <p>
+ * Created by admin on 2017/11/7.
+ */
+
+public class PlayPresenter implements PlayContract.Presenter {
+
+    private PlayContract.View mView;
+
+    private PlayModel mModel;
+
+    public PlayPresenter(PlayContract.View view) {
+        mView = view;
+        mModel = new PlayModel();
+    }
+
+    @Override
+    public void onClick(int type) {
+        switch (type){
+            case 1:
+
+                break;
+        }
+
+    }
+
+    @Override
+    public void getRoomDetails(String roomid) {
+        mModel.getRoomDetails(roomid, mRoomDetailsListener);
+    }
+
+    @Override
+    public void startGame(String roomid) {
+        mModel.startGame(roomid, mStartGameListener);
+    }
+
+    /**
+     * 发送弹幕消息
+     *
+     * @param msg    消息
+     * @param roomid 房间id
+     */
+    @Override
+    public void Requestbarrage(String msg, String roomid) {
+        mModel.onBarrageData(msg,roomid,RequestBarrage);
+    }
+
+    @Override
+    public void PlayScoket(String url) {
+        OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+                .readTimeout(3, TimeUnit.SECONDS)//设置读取超时时间
+                .writeTimeout(3, TimeUnit.SECONDS)//设置写的超时时间
+                .connectTimeout(3, TimeUnit.SECONDS)//设置连接超时时间
+                .build();
+        Request request = new Request.Builder().url(url).build();//设置ip和端口号
+        WebSocketListener socketListener = new WebSocketListener();
+        mOkHttpClient.newWebSocket(request, socketListener);
+        mOkHttpClient.dispatcher().executorService().shutdown();
+    }
+
+    /**
+     * 房间详情回调
+     */
+    private OnRequestChangeListener<RoomDetailsEntity> mRoomDetailsListener = new OnRequestChangeListener<RoomDetailsEntity>() {
+        @Override
+        public void onSuccess(RoomDetailsEntity roomDetailsEntity) {
+            mView.setRoomDetails(roomDetailsEntity);
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+
+    /**
+     * 开始游戏回调
+     */
+    private OnRequestChangeListener<RoomDetailsEntity> mStartGameListener = new OnRequestChangeListener<RoomDetailsEntity>() {
+        @Override
+        public void onSuccess(RoomDetailsEntity roomDetailsEntity) {
+            mView.startGame(roomDetailsEntity);
+
+
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+
+    /**
+     * 发送弹幕回调
+     */
+    private OnRequestChangeListener<String> RequestBarrage = new OnRequestChangeListener<String>() {
+        @Override
+        public void onSuccess(String s) {
+            mView.onBarrage(s);
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+}

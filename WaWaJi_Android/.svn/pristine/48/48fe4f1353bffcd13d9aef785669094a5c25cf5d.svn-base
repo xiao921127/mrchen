@@ -1,0 +1,289 @@
+package com.wawaji.app.presenter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.wawaji.app.AppApplication;
+import com.wawaji.app.R;
+import com.wawaji.app.contract.PlayContract;
+import com.wawaji.app.entity.RoomDetailsEntity;
+import com.wawaji.app.interf.OnRequestChangeListener;
+import com.wawaji.app.model.PlayModel;
+import com.wawaji.app.ui.PlayAct;
+import com.wawaji.app.ui.WebAct;
+import com.wawaji.app.ui.dialog.CaughtDialog;
+import com.wawaji.app.ui.dialog.CaughtNoDialog;
+import com.wawaji.app.ui.dialog.InsufficientAmountDialog;
+import com.wawaji.common.base.dialog.BaseDialog;
+import com.wawaji.common.websocket.WebSocketListener;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
+/**
+ * 游戏页面控制器
+ * <p>
+ * Created by admin on 2017/11/7.
+ */
+
+public class PlayPresenter implements PlayContract.Presenter {
+
+    private PlayContract.View mView;
+
+    private PlayModel mModel;
+
+    private InsufficientAmountDialog insufficientAmountDialog;
+
+    private CaughtDialog caughtDialog;
+
+    private CaughtNoDialog caughtNoDialog;
+
+    private Context context;
+
+    private int type;
+
+    public PlayPresenter(PlayContract.View view) {
+        mView = view;
+        mModel = new PlayModel();
+    }
+
+    @Override
+    public void PlayContent(Context context) {
+        this.context=context;
+    }
+
+
+    @Override
+    public void onClick(int type) {
+        this.type=type;
+        switch (type){
+            case 1:
+                //开始游戏时判断游戏币是否充足弹框
+                insufficientAmountDialog = new InsufficientAmountDialog(context);
+                insufficientAmountDialog.setOnButtonClickChangeListenr(mRechargeListener);
+                insufficientAmountDialog.showDialog();
+                break;
+            case 2:
+                //抓中
+                caughtDialog = new CaughtDialog(context);
+                caughtDialog.setOnButtonClickChangeListenr(mRechargeListener);
+                caughtDialog.showDialog();
+                break;
+            case 3:
+                //未抓中
+                caughtNoDialog = new CaughtNoDialog(context);
+                caughtNoDialog.setOnButtonClickChangeListenr(mRechargeListener);
+                caughtNoDialog.showDialog();
+                break;
+
+        }
+
+    }
+
+    @Override
+    public void getRoomDetails(String roomid) {
+        mModel.getRoomDetails(roomid, mRoomDetailsListener);
+    }
+
+    @Override
+    public void startGame(String roomid) {
+        mModel.startGame(roomid, mStartGameListener);
+    }
+
+    /**
+     * 发送弹幕消息
+     *
+     * @param msg    消息
+     * @param roomid 房间id
+     */
+    @Override
+    public void Requestbarrage(String msg, String roomid) {
+        mModel.onBarrageData(msg, roomid, RequestBarrage);
+    }
+
+
+    @Override
+    public void refreshRoom(String roomid) {
+        mModel.refreshRoom(roomid, mRoomRefreshListener);
+    }
+
+    /**
+     * 建立长连接
+     * @param url 地址
+     */
+    @Override
+    public void PlayScoket(String url) {
+        OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+                .readTimeout(3, TimeUnit.SECONDS)//设置读取超时时间
+                .writeTimeout(3, TimeUnit.SECONDS)//设置写的超时时间
+                .connectTimeout(3, TimeUnit.SECONDS)//设置连接超时时间
+                .build();
+        Request request = new Request.Builder().url(url).build();//设置ip和端口号
+        WebSocketListener socketListener = new WebSocketListener();
+        mOkHttpClient.newWebSocket(request, socketListener);
+        mOkHttpClient.dispatcher().executorService().shutdown();
+    }
+
+    /**
+     * 游戏结束休息一会
+     * @param roomId
+     */
+    @Override
+    public void PlayGameOver(String roomId) {
+        mModel.PlayGameOver(roomId,mOverGameListener);
+    }
+
+    /**
+     * 房间详情回调
+     */
+    private OnRequestChangeListener<RoomDetailsEntity> mRoomDetailsListener = new OnRequestChangeListener<RoomDetailsEntity>() {
+        @Override
+        public void onSuccess(RoomDetailsEntity roomDetailsEntity) {
+            mView.setRoomDetails(roomDetailsEntity);
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+
+    /**
+     * 开始游戏回调
+     */
+    private OnRequestChangeListener<RoomDetailsEntity> mStartGameListener = new OnRequestChangeListener<RoomDetailsEntity>() {
+        @Override
+        public void onSuccess(RoomDetailsEntity roomDetailsEntity) {
+            mView.startGame(roomDetailsEntity);
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+
+    /**
+     * 游戏结束休息一会
+     */
+    private OnRequestChangeListener<RoomDetailsEntity> mOverGameListener = new OnRequestChangeListener<RoomDetailsEntity>() {
+        @Override
+        public void onSuccess(RoomDetailsEntity roomDetailsEntity) {
+            mView.PlayGameOver(roomDetailsEntity);
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+
+    /**
+     * 发送弹幕回调
+     */
+    private OnRequestChangeListener<String> RequestBarrage = new OnRequestChangeListener<String>() {
+        @Override
+        public void onSuccess(String s) {
+            mView.onBarrage(s);
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+
+    /**
+     * 充值弹框回调（抓中和未抓中弹框同时使用的这个）
+     */
+    private BaseDialog.OnButtonClickChangeListener mRechargeListener = new BaseDialog.OnButtonClickChangeListener() {
+        @Override
+        public void onClickCancel() {
+            switch (type){
+                case 1:
+                    // TODO: 分享邀请码
+                    break;
+                case 2:
+                    // 抓中弹框继续游戏
+                    ((PlayAct)context).onStartGame();
+                    break;
+                case 3:
+                    // 未抓中弹框继续游戏
+                    ((PlayAct)context).onStartGame();
+                    break;
+            }
+        }
+
+        @Override
+        public void onClickSure() {
+            switch (type){
+                case 1:
+                    //去充值
+                    Bundle bundle = new Bundle();
+                    bundle.putString("url", AppApplication.getStringById(R.string.url_fill_recharge));
+                    Intent intent = new Intent(context, WebAct.class);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                    break;
+                case 2:
+                    //抓中弹框结束游戏
+                    ((PlayAct)context).onEndGame();
+                    break;
+                case 3:
+                    //未抓中弹框结束游戏
+                    ((PlayAct)context).onEndGame();
+                    break;
+            }
+        }
+
+        @Override
+        public void onClickCopy() {
+
+        }
+    };
+    /**
+     * 房间刷新回调
+     */
+    private OnRequestChangeListener<RoomDetailsEntity> mRoomRefreshListener = new OnRequestChangeListener<RoomDetailsEntity>() {
+        @Override
+        public void onSuccess(RoomDetailsEntity roomDetailsEntity) {
+            mView.setRoomDetails(roomDetailsEntity);
+        }
+
+        @Override
+        public void onFailure() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+}

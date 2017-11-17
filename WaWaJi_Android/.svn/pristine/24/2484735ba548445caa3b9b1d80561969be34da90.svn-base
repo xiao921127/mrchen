@@ -1,0 +1,42 @@
+package com.wawaji.app.contract;
+
+import com.wawaji.app.entity.DollsEntity;
+import com.wawaji.app.interf.BaseListChangeListener;
+import com.wawaji.common.base.BaseListContract;
+import com.wawaji.common.base.BaseModel;
+
+
+/**
+ * 主页MVP架构
+ */
+public interface HomeContract {
+
+    /**
+     * 视图
+     *
+     * @param <DollsEntity>数据实体
+     */
+    interface View<DollsEntity> extends BaseListContract.View<DollsEntity> {}
+
+    /**
+     * 控制器
+     */
+    interface Presenter extends BaseListContract.Presenter {
+    }
+
+    /**
+     * 模型
+     */
+    interface Model extends BaseModel {
+
+        /**
+         * 获取首页数据
+         *
+         * @param page 页数
+         * @param listener 回调
+         */
+        void getHomeData(int page, BaseListChangeListener<DollsEntity> listener);
+
+    }
+
+}
